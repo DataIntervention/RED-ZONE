@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Red Zone">
+<title>RED ZONE — Utah Football Recruiting</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+:root{
+  /* Light design system per spec */
+  --bg:#F7F8FA;
+  --bg2:#EEF1F4;
+  --card:#FFFFFF;
+  --card-shadow:0 1px 4px rgba(0,0,0,0.06),0 2px 12px rgba(0,0,0,0.04);
+  --t1:#0F172A;
+  --t2:#475569;
+  --t3:#94A3B8;
+  --accent:#2563EB;
+  --success:#16A34A;
+  --warning:#F59E0B;
+  --error:#DC2626;
+  --info:#60A5FA;
+  --border:#E2E8F0;
+  --utah:#CC0000;
+  --safe-t:env(safe-area-inset-top,44px);
+  --safe-b:env(safe-area-inset-bottom,20px);
+  --r-card:14px;
+  --r-btn:14px;
+  --r-pill:999px;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif}
+#app{display:flex;flex-direction:column;height:100dvh;overflow:hidden;max-width:1100px;margin:0 auto;background:var(--bg)}
+#sb{height:var(--safe-t);background:#fff;flex-shrink:0}
+
+/* ── HEADER ── */
+#hdr{background:#fff;border-bottom:1px solid var(--border);flex-shrink:0;padding:0 16px}
+.hdr-main{display:flex;align-items:center;justify-content:space-between;height:52px}
+.logo{display:flex;align-items:center;gap:8px;cursor:pointer}
+.rz-word{font-size:20px;font-weight:900;letter-spacing:0.04em;color:var(--t1)}
+.rz-word b{color:var(--utah)}
+.hdr-r{display:flex;align-items:center;gap:10px}
+.coach-wrap{position:relative}
+.coach-btn{display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-pill);font-size:13px;font-weight:600;color:var(--t1);cursor:pointer;white-space:nowrap;transition:border-color 0.2s}
+.coach-btn:hover{border-color:var(--accent)}
+.coach-btn svg{width:12px;height:12px;stroke:var(--t3);fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+.coach-drop{position:absolute;top:calc(100%+6px);right:0;background:#fff;border:1px solid var(--border);border-radius:var(--r-card);min-width:210px;z-index:300;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.12);display:none}
+.coach-drop.open{display:block}
+.cd-item{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;border-bottom:1px solid var(--border);transition:background 0.1s}
+.cd-item:last-child{border-bottom:none}
+.cd-item:hover{background:var(--bg)}
+.cd-item.on{background:#EFF6FF}
+.cd-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0}
+.cd-name{font-size:13px;font-weight:600;color:var(--t1)}
+.cd-role{font-size:11px;color:var(--t3)}
+.bell-btn{position:relative;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--bg);border-radius:50%;border:1.5px solid var(--border);transition:border-color 0.2s;flex-shrink:0}
+.bell-btn:hover{border-color:var(--accent)}
+.bell-badge{position:absolute;top:-2px;right:-2px;min-width:16px;height:16px;border-radius:8px;background:var(--error);border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;padding:0 3px}
+
+/* ── SUMMARY STRIP ── */
+.sum-strip{display:flex;gap:8px;padding:10px 16px;overflow-x:auto;scrollbar-width:none;background:#fff;border-bottom:1px solid var(--border)}
+.sum-strip::-webkit-scrollbar{display:none}
+.sum-card{flex-shrink:0;height:52px;min-width:110px;padding:0 14px;border-radius:12px;display:flex;align-items:center;gap:10px;cursor:pointer;border:1.5px solid var(--border);background:#fff;transition:border-color 0.2s,transform 0.1s}
+.sum-card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.sum-card:active{transform:scale(0.97)}
+.sum-num{font-size:22px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.sum-lbl{font-size:11px;font-weight:600;color:var(--t3);line-height:1.3}
+.sc-fire{background:#FFF5F5}.sc-fire .sum-num{color:var(--error)}
+.sc-due{background:#FFFBEB}.sc-due .sum-num{color:var(--warning)}
+.sc-track{background:#F0FDF4}.sc-track .sum-num{color:var(--success)}
+.sc-atier{background:#EFF6FF}.sc-atier .sum-num{color:var(--accent)}
+
+/* ── YEAR / POS HEADER ── */
+.board-hdr{background:#fff;border-bottom:1px solid var(--border);flex-shrink:0}
+.yr-row{display:flex;gap:6px;padding:8px 16px 0}
+.yr{flex:1;height:34px;border-radius:var(--r-pill);border:1.5px solid var(--border);background:#fff;font-size:14px;font-weight:600;color:var(--t3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s}
+.yr:hover{border-color:var(--accent);color:var(--accent)}
+.yr.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pos-scroll{display:flex;gap:6px;padding:8px 16px;overflow-x:auto;scrollbar-width:none}
+.pos-scroll::-webkit-scrollbar{display:none}
+.pos-btn{height:28px;padding:0 12px;border-radius:var(--r-pill);border:1.5px solid var(--border);background:#fff;font-size:12px;font-weight:600;color:var(--t3);white-space:nowrap;flex-shrink:0;cursor:pointer;transition:all 0.2s}
+.pos-btn:hover{border-color:var(--accent);color:var(--accent)}
+.pos-btn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ── NAV ── */
+#nav{display:flex;background:#fff;border-top:1px solid var(--border);flex-shrink:0;position:fixed;bottom:0;left:0;right:0;z-index:40;padding-bottom:var(--safe-b);max-width:1100px;margin:0 auto}
+.nt{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;height:54px;cursor:pointer;transition:color 0.2s;padding-top:6px}
+.nt svg{width:22px;height:22px;stroke:var(--t3);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:stroke 0.2s}
+.nt span{font-size:10px;font-weight:600;color:var(--t3);transition:color 0.2s}
+.nt.on svg{stroke:var(--accent)}.nt.on span{color:var(--accent)}
+
+/* ── PANES ── */
+#scroll{flex:1;overflow:hidden;display:flex;flex-direction:column;margin-bottom:calc(54px + var(--safe-b))}
+.pane{display:none;flex:1;overflow:hidden;flex-direction:column}
+.pane.on{display:flex}
+
+/* ── SPLIT ── */
+.split{display:flex;flex:1;overflow:hidden}
+.split-l{width:380px;flex-shrink:0;border-right:1px solid var(--border);overflow-y:auto;scrollbar-width:none;background:var(--bg)}
+.split-l::-webkit-scrollbar{display:none}
+.split-r{flex:1;overflow-y:auto;scrollbar-width:none;background:#fff}
+.split-r::-webkit-scrollbar{display:none}
+@media(max-width:767px){
+  .split-l{width:100%}
+  .split-r{display:none;position:fixed;inset:0;z-index:60;background:#fff;overflow-y:auto;padding-bottom:calc(54px + var(--safe-b) + 20px)}
+  .split-r.open{display:block}
+}
+
+/* ── TODAY SCREEN ── */
+.today-scroll{flex:1;overflow-y:auto;scrollbar-width:none;padding:12px 0 20px;background:var(--bg)}
+.today-scroll::-webkit-scrollbar{display:none}
+.sec-hdr{display:flex;justify-content:space-between;align-items:center;padding:8px 16px 6px}
+.sec-hdr-t{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--t3)}
+.sec-hdr-ct{font-size:11px;font-weight:700;color:var(--t2)}
+
+/* Today action card */
+.t-card{background:#fff;border-radius:var(--r-card);margin:0 12px 8px;box-shadow:var(--card-shadow);border:1px solid var(--border);overflow:hidden;transition:box-shadow 0.15s,transform 0.1s;cursor:pointer;position:relative}
+.t-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.1);transform:translateY(-1px)}
+.t-card:active{transform:scale(0.98)}
+.t-card-inner{display:flex;align-items:stretch;min-height:80px}
+.t-card-bar{width:4px;flex-shrink:0;border-radius:var(--r-card) 0 0 var(--r-card)}
+.bar-red{background:var(--error)}
+.bar-amb{background:var(--warning)}
+.bar-grn{background:var(--success)}
+.t-card-body{flex:1;padding:12px 12px 12px 14px;min-width:0}
+.t-card-name{font-size:15px;font-weight:700;color:var(--t1);margin-bottom:2px}
+.t-card-sub{font-size:12px;color:var(--t3);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-card-msg{font-size:13px;font-weight:500;color:var(--t2);line-height:1.4}
+.t-card-msg.urgent{color:var(--error);font-weight:600}
+.t-card-msg.due{color:#92400E;font-weight:600}
+.t-card-actions{display:flex;flex-direction:column;justify-content:center;gap:5px;padding:10px 12px 10px 0;flex-shrink:0}
+.tca-btn{height:34px;padding:0 12px;border-radius:var(--r-pill);border:none;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;transition:opacity 0.15s,transform 0.1s;display:flex;align-items:center;gap:5px}
+.tca-btn:active{opacity:0.85;transform:scale(0.95)}
+.btn-call{background:#DCFCE7;color:#15803D}
+.btn-text{background:#DBEAFE;color:#1D4ED8}
+.btn-del{background:var(--bg);color:var(--t3);border:1px solid var(--border)}
+.t-card-next{padding:6px 14px 10px;font-size:12px;font-weight:600;color:var(--t3);border-top:1px solid var(--border)}
+
+/* Priority card */
+.p-card{background:#fff;border-radius:var(--r-card);margin:0 12px 8px;box-shadow:var(--card-shadow);border:1px solid var(--border);padding:12px 14px;cursor:pointer;transition:all 0.15s}
+.p-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.1);transform:translateY(-1px)}
+.p-card-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.p-card-av{width:42px;height:42px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.p-card-av-ph{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0}
+.p-card-info{flex:1;min-width:0}
+.p-card-name{font-size:15px;font-weight:700;color:var(--t1);margin-bottom:2px}
+.p-card-pos{font-size:12px;color:var(--t3)}
+.p-card-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.tier-badge{width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0}
+.tb-a{background:#FEE2E2;color:var(--error)}
+.tb-b{background:#FEF3C7;color:#92400E}
+.tb-c{background:#DBEAFE;color:var(--accent)}
+.rel-wrap{display:flex;align-items:center;gap:4px}
+.rel-track{width:40px;height:4px;background:var(--bg2);border-radius:2px;overflow:hidden}
+.rel-fill{height:100%;border-radius:2px}
+.rel-num{font-size:11px;font-weight:700}
+.p-card-sigs{display:flex;gap:5px;flex-wrap:wrap}
+.sig{height:18px;padding:0 7px;border-radius:var(--r-pill);font-size:10px;font-weight:700;display:inline-flex;align-items:center}
+.sig-r{background:#FEE2E2;color:var(--error)}
+.sig-a{background:#FEF3C7;color:#92400E}
+.sig-g{background:#DCFCE7;color:#15803D}
+.sig-b{background:#DBEAFE;color:var(--accent)}
+.on-track-box{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:var(--r-card);margin:0 12px 12px;padding:14px 16px}
+.otb-title{font-size:15px;font-weight:700;color:var(--success);margin-bottom:4px}
+.otb-sub{font-size:13px;color:#15803D;margin-bottom:10px}
+.otb-btn{height:36px;background:#fff;border:1.5px solid #86EFAC;border-radius:var(--r-pill);font-size:13px;font-weight:700;color:var(--success);cursor:pointer;font-family:inherit;transition:background 0.15s}
+.otb-btn:hover{background:#DCFCE7}
+
+/* ── BOARD CARDS (2-col grid) ── */
+.board-scroll{flex:1;overflow-y:auto;scrollbar-width:none;background:var(--bg);padding:8px}
+.board-scroll::-webkit-scrollbar{display:none}
+.board-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(min-width:600px){.board-grid{grid-template-columns:repeat(3,1fr)}}
+.tier-label{grid-column:1/-1;padding:8px 4px 2px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--t3)}
+.b-card{background:#fff;border-radius:var(--r-card);box-shadow:var(--card-shadow);border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:all 0.15s}
+.b-card:hover,.b-card.sel{border-color:var(--accent);box-shadow:0 4px 16px rgba(37,99,235,0.15)}
+.b-card:active{transform:scale(0.97)}
+.b-card-top{padding:12px 12px 8px;position:relative}
+.b-card-av-wrap{display:flex;justify-content:center;margin-bottom:8px;position:relative}
+.b-card-photo{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--border)}
+.b-card-photo-ph{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;border:2px solid var(--border)}
+.b-card-tier{position:absolute;top:0;right:0}
+.b-card-name{font-size:14px;font-weight:700;color:var(--t1);text-align:center;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.b-card-name.gone-name{text-decoration:line-through;color:var(--t3)}
+.b-card-pos{font-size:11px;color:var(--t3);text-align:center;margin-bottom:6px}
+.b-card-pills{display:flex;justify-content:center;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.pill{height:20px;padding:0 8px;border-radius:var(--r-pill);font-size:10px;font-weight:700;display:inline-flex;align-items:center;white-space:nowrap}
+.p-commit{background:#DCFCE7;color:#15803D}
+.p-active{background:#FEF3C7;color:#92400E}
+.p-offer{background:#DBEAFE;color:var(--accent)}
+.p-act{background:#FEE2E2;color:var(--error)}
+.p-gone{background:var(--bg2);color:var(--t3)}
+.p-lost{background:var(--bg2);color:var(--t3);text-decoration:line-through}
+.b-card-metrics{display:flex;justify-content:space-around;padding:8px 4px;border-top:1px solid var(--border);background:var(--bg)}
+.b-metric{text-align:center}
+.b-metric-lbl{font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.05em}
+.b-metric-val{font-size:13px;font-weight:700;color:var(--t1)}
+.b-card-rpm{text-align:center;padding:6px 0 0;font-size:11px;font-weight:600;color:var(--accent)}
+.b-card-owner{position:absolute;bottom:8px;right:8px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;background:var(--bg2);color:var(--t3)}
+.stars-txt{font-size:11px;color:var(--warning);letter-spacing:1px;text-align:center;margin-bottom:4px}
+
+/* ── PROFILE ── */
+.mob-back{display:none;align-items:center;gap:8px;padding:14px 16px;font-size:16px;font-weight:600;color:var(--accent);cursor:pointer;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+.mob-back svg{width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:2.5;stroke-linecap:round}
+@media(max-width:767px){.mob-back{display:flex}}
+.profile-scroll{padding:16px;padding-bottom:40px}
+.prof-hdr{display:flex;gap:14px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.prof-photo{width:72px;height:72px;border-radius:16px;object-fit:cover;flex-shrink:0;background:var(--bg2);border:2px solid var(--border)}
+.prof-photo-ph{width:72px;height:72px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;flex-shrink:0;border:2px solid var(--border)}
+.prof-info{flex:1;min-width:0}
+.prof-name{font-size:22px;font-weight:800;color:var(--t1);margin-bottom:3px;letter-spacing:-0.3px}
+.prof-pos{font-size:13px;color:var(--t3);margin-bottom:6px;line-height:1.5}
+.prof-pills{display:flex;gap:5px;flex-wrap:wrap}
+.status-strip{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:14px}
+.status-strip::-webkit-scrollbar{display:none}
+.ss-item{flex-shrink:0;background:#fff;border:1px solid var(--border);border-radius:10px;padding:8px 12px}
+.ss-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--t3);margin-bottom:3px}
+.ss-val{font-size:13px;font-weight:700;color:var(--t1)}
+.next-action-box{background:#FFF5F5;border:1.5px solid #FECACA;border-radius:var(--r-card);padding:14px;margin-bottom:14px}
+.nab-lbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--error);margin-bottom:6px}
+.nab-action{font-size:15px;font-weight:700;color:var(--t1);margin-bottom:4px;line-height:1.4}
+.nab-ctx{font-size:13px;color:var(--t2);margin-bottom:12px;line-height:1.5}
+.nab-btns{display:flex;gap:8px;flex-wrap:wrap}
+.nab-btn{height:40px;flex:1;min-width:80px;border-radius:var(--r-pill);border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.nab-btn:active{opacity:0.85}
+.nab-call{background:var(--success);color:#fff}
+.nab-text{background:var(--accent);color:#fff}
+.nab-x{background:var(--bg2);color:var(--t1);border:1px solid var(--border)}
+.sec-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-card);padding:14px;margin-bottom:12px;box-shadow:var(--card-shadow)}
+.sec-card-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;color:var(--t3);margin-bottom:10px}
+.fam-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.1s;border-radius:8px;padding:8px}
+.fam-row:last-child{border-bottom:none}
+.fam-row:hover{background:var(--bg)}
+.fam-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0}
+.fam-info{flex:1;min-width:0}
+.fam-name{font-size:14px;font-weight:600;color:var(--t1);margin-bottom:1px}
+.fam-role{font-size:12px;color:var(--t3)}
+.fam-phone{font-size:13px;font-weight:600;color:var(--accent);flex-shrink:0}
+.fam-arr{font-size:18px;color:var(--t3);flex-shrink:0}
+.otags{display:flex;flex-wrap:wrap;gap:5px}
+.otag{height:24px;padding:0 10px;border-radius:var(--r-pill);background:var(--bg);font-size:12px;font-weight:600;color:var(--t2);display:inline-flex;align-items:center;border:1px solid var(--border)}
+.otag.ours{background:#DCFCE7;color:#15803D;border-color:#86EFAC}
+.rel-box{background:#fff;border:1px solid var(--border);border-radius:var(--r-card);padding:14px;margin-bottom:12px;box-shadow:var(--card-shadow)}
+.rel-score-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.rel-big{font-size:36px;font-weight:900;line-height:1}
+.rel-bar-big{width:100%;height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;margin-top:4px}
+.rel-fill-big{height:100%;border-radius:3px}
+.lmt-box{background:var(--bg);border-radius:10px;padding:10px 12px;margin-top:8px}
+.lmt-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--t3);margin-bottom:3px}
+.lmt-txt{font-size:13px;color:var(--t2);line-height:1.5;font-style:italic}
+.detail-tag{display:inline-flex;align-items:center;background:var(--bg);border-radius:var(--r-pill);height:24px;padding:0 10px;font-size:12px;font-weight:500;color:var(--t2);margin:2px;border:1px solid var(--border)}
+.comp-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)}
+.comp-row:last-child{border-bottom:none}
+.comp-sch{font-size:13px;font-weight:600;color:var(--t1)}
+.comp-pos{height:18px;padding:0 8px;border-radius:var(--r-pill);font-size:10px;font-weight:700;display:inline-flex;align-items:center}
+.cp-lead{background:#FEE2E2;color:var(--error)}
+.cp-comp{background:#FEF3C7;color:#92400E}
+.cp-trail{background:#DCFCE7;color:#15803D}
+.nil-row{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--border);gap:8px}
+.nil-row:last-child{border-bottom:none}
+.nil-lbl{font-size:13px;font-weight:600;color:var(--t2);flex-shrink:0}
+.nil-val{font-size:13px;color:var(--t1);text-align:right}
+.checklist-wrap{background:#fff;border:1px solid var(--border);border-radius:var(--r-card);padding:14px;margin-bottom:12px;box-shadow:var(--card-shadow)}
+.cl-stage-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.cl-stage-name{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--t2)}
+.cl-prog{font-size:12px;font-weight:700}
+.cl-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.cl-item:last-child{border-bottom:none}
+.cl-item.overdue-item{background:#FFF5F5;border-radius:8px;padding:8px;margin:0 -8px 4px}
+.cl-check{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;cursor:pointer;transition:all 0.2s}
+.cl-check.done{background:var(--success);border-color:var(--success)}
+.cl-check.sched{background:#FEF3C7;border-color:var(--warning)}
+.cl-check.overdue-chk{background:#FEE2E2;border-color:var(--error)}
+.cl-info{flex:1;min-width:0}
+.cl-action{font-size:14px;font-weight:600;color:var(--t1);margin-bottom:2px}
+.cl-action.overdue-txt{color:var(--error)}
+.cl-meta{font-size:12px;color:var(--t3)}
+.cl-meta.overdue-txt{color:var(--error)}
+.comm-wrap{background:#fff;border:1px solid var(--border);border-radius:var(--r-card);padding:14px;margin-bottom:12px;box-shadow:var(--card-shadow)}
+.comm-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.comm-item:last-child{border-bottom:none}
+.comm-ico{font-size:18px;width:24px;text-align:center;flex-shrink:0}
+.comm-who{font-size:14px;font-weight:600;color:var(--t1);margin-bottom:2px}
+.comm-note{font-size:13px;color:var(--t2);line-height:1.4}
+.comm-time{font-size:11px;color:var(--t3);margin-top:2px}
+.note-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-card);padding:12px;margin-bottom:12px}
+.note-input{width:100%;background:transparent;border:none;color:var(--t1);font-size:15px;font-family:inherit;resize:none;min-height:70px;outline:none;line-height:1.6}
+.note-input::placeholder{color:var(--t3)}
+.note-save{margin-top:8px;height:38px;width:100%;background:var(--accent);color:#fff;border:none;border-radius:var(--r-pill);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.prof-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.pb{height:48px;border-radius:var(--r-btn);border:none;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:inherit;transition:opacity 0.15s,transform 0.1s}
+.pb:active{opacity:0.85;transform:scale(0.97)}
+.pb-call{background:var(--success);color:#fff;grid-column:1/-1}
+.pb-text{background:var(--accent);color:#fff}
+.pb-x{background:var(--bg);color:var(--t1);border:1.5px solid var(--border)}
+.pb-done{background:var(--bg);color:var(--t2);border:1.5px solid var(--border)}
+.hudl-link{display:flex;align-items:center;gap:8px;height:38px;background:var(--bg);border-radius:var(--r-pill);padding:0 14px;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--border);cursor:pointer;margin-top:8px}
+
+/* ── WAR ROOM ── */
+.wr-scroll{flex:1;overflow-y:auto;scrollbar-width:none;padding:12px 0 20px;background:var(--bg)}
+.wr-scroll::-webkit-scrollbar{display:none}
+.wr-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 12px 12px}
+@media(min-width:600px){.wr-grid{grid-template-columns:repeat(3,1fr)}}
+.wr-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-card);padding:16px;cursor:pointer;box-shadow:var(--card-shadow);transition:all 0.15s}
+.wr-card:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:0 4px 16px rgba(37,99,235,0.12)}
+.wr-card:active{transform:scale(0.97)}
+.wr-num{font-size:32px;font-weight:900;letter-spacing:-1px;line-height:1;margin-bottom:4px}
+.wr-lbl{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.06em}
+.wr-sub{font-size:12px;font-weight:600;margin-top:4px}
+.chart-box{background:#fff;border:1px solid var(--border);border-radius:var(--r-card);padding:14px;margin:0 12px 12px;box-shadow:var(--card-shadow)}
+.chart-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--t3);margin-bottom:12px}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bar-lbl{font-size:13px;font-weight:600;color:var(--t2);width:40px;text-align:right;flex-shrink:0}
+.bar-track{flex:1;height:20px;background:var(--bg2);border-radius:6px;overflow:hidden;cursor:pointer}
+.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding:0 8px;font-size:11px;font-weight:700;white-space:nowrap}
+.bar-val{font-size:13px;font-weight:700;width:22px;flex-shrink:0;text-align:right}
+.wr-list-box{background:#fff;border:1px solid var(--border);border-radius:var(--r-card);margin:0 12px 12px;overflow:hidden;box-shadow:var(--card-shadow)}
+.wr-row{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.1s}
+.wr-row:last-child{border-bottom:none}
+.wr-row:hover{background:var(--bg)}
+.wr-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.wr-info{flex:1;min-width:0}
+.wr-name{font-size:14px;font-weight:600;color:var(--t1);margin-bottom:2px}
+.wr-detail{font-size:12px;color:var(--t3)}
+.wr-badge{height:22px;padding:0 8px;border-radius:var(--r-pill);font-size:11px;font-weight:700;flex-shrink:0;display:inline-flex;align-items:center}
+.wb-g{background:#DCFCE7;color:#15803D}
+.wb-a{background:#FEF3C7;color:#92400E}
+.wb-r{background:#FEE2E2;color:var(--error)}
+
+/* ── RECRUITING NEWS ── */
+.rn-scroll{flex:1;overflow-y:auto;scrollbar-width:none;background:var(--bg);padding:8px 0}
+.rn-scroll::-webkit-scrollbar{display:none}
+.rn-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-card);margin:0 12px 8px;box-shadow:var(--card-shadow);overflow:hidden;cursor:pointer;transition:all 0.15s}
+.rn-card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.rn-card-inner{display:flex;align-items:stretch;min-height:72px}
+.rn-bar{width:4px;flex-shrink:0}
+.rn-body{flex:1;padding:12px 12px 10px 14px}
+.rn-tag-row{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.rn-tag{height:18px;padding:0 8px;border-radius:var(--r-pill);font-size:10px;font-weight:700;display:inline-flex;align-items:center}
+.rn-time{font-size:11px;color:var(--t3)}
+.rn-title{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:3px;line-height:1.35}
+.rn-desc{font-size:12px;color:var(--t2);line-height:1.45;margin-bottom:8px}
+.rn-action-btn{height:30px;padding:0 14px;border-radius:var(--r-pill);border:1.5px solid var(--accent);background:#fff;font-size:12px;font-weight:700;color:var(--accent);cursor:pointer;font-family:inherit;transition:all 0.15s;display:inline-flex;align-items:center;gap:5px}
+.rn-action-btn:hover{background:var(--accent);color:#fff}
+
+/* ── WATCH LIST ── */
+.wl-scroll{flex:1;overflow-y:auto;scrollbar-width:none;background:var(--bg);padding:8px 0}
+.wl-scroll::-webkit-scrollbar{display:none}
+.wl-hdr-txt{padding:8px 16px 6px;font-size:13px;color:var(--t2);line-height:1.6;background:var(--bg)}
+.wl-hdr-txt b{color:var(--t1)}
+.wl-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-card);margin:0 12px 8px;padding:12px 14px;box-shadow:var(--card-shadow);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:12px}
+.wl-card:hover{border-color:var(--accent)}
+.wl-av{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;border:1.5px solid var(--border)}
+.wl-body{flex:1;min-width:0}
+.wl-name{font-size:15px;font-weight:700;color:var(--t1);margin-bottom:2px}
+.wl-school{font-size:12px;color:var(--t3);margin-bottom:4px}
+.wl-tag{height:18px;padding:0 8px;border-radius:var(--r-pill);font-size:10px;font-weight:700;display:inline-flex;align-items:center}
+.wl-yr{font-size:12px;font-weight:600;color:var(--t3);flex-shrink:0}
+.add-card{display:flex;align-items:center;justify-content:center;gap:10px;margin:4px 12px 16px;height:48px;border-radius:var(--r-card);border:2px dashed var(--border);cursor:pointer;font-size:14px;font-weight:600;color:var(--t3);transition:all 0.2s;background:#fff}
+.add-card:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── PORTAL ── */
+.port-scroll{flex:1;overflow-y:auto;scrollbar-width:none;background:var(--bg);padding:8px 0}
+.port-scroll::-webkit-scrollbar{display:none}
+.port-hdr{padding:8px 16px;font-size:13px;color:var(--t2);line-height:1.6}
+.port-hdr b{color:var(--t1)}
+.need-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-card);margin:0 12px 8px;padding:14px;box-shadow:var(--card-shadow)}
+.need-section{margin-bottom:16px}
+.need-section:last-child{margin-bottom:0}
+.need-pos-hdr{font-size:16px;font-weight:700;color:var(--t1);margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nb{height:20px;padding:0 8px;border-radius:var(--r-pill);font-size:10px;font-weight:700;display:inline-flex;align-items:center}
+.nb-r{background:#FEE2E2;color:var(--error)}
+.nb-a{background:#FEF3C7;color:#92400E}
+.nb-g{background:#DCFCE7;color:#15803D}
+.pm-card{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:10px;margin-bottom:6px;cursor:pointer;transition:all 0.15s;border:1px solid var(--border)}
+.pm-card:hover{border-color:var(--accent);background:#EFF6FF}
+.pm-av{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
+.pm-body{flex:1;min-width:0}
+.pm-name{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:1px}
+.pm-school{font-size:12px;color:var(--t3)}
+.pm-r{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
+.pm-clock{font-size:13px;font-weight:700;color:var(--warning)}
+.pm-pre{font-size:11px;font-weight:700;color:var(--success)}
+.pt-live{background:#DBEAFE;color:var(--accent);height:18px;padding:0 8px;border-radius:var(--r-pill);font-size:10px;font-weight:700;display:inline-flex;align-items:center}
+
+/* ── OVERLAYS ── */
+.overlay{position:fixed;inset:0;z-index:100;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,0.4)}
+.overlay.open{display:flex}
+.sheet{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:600px;padding:20px 20px calc(var(--safe-b) + 20px);box-shadow:0 -8px 32px rgba(0,0,0,0.15)}
+.sheet-handle{width:36px;height:4px;background:var(--bg2);border-radius:2px;margin:0 auto 16px}
+.sheet-title{font-size:20px;font-weight:800;color:var(--t1);margin-bottom:6px}
+.sheet-sub{font-size:14px;color:var(--t2);margin-bottom:16px;line-height:1.5}
+.sheet-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.sheet-btn{height:50px;border-radius:var(--r-btn);border:none;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.15s;display:flex;align-items:center;justify-content:center;gap:7px}
+.sheet-btn:active{opacity:0.85}
+.sb-yes{background:var(--success);color:#fff}
+.sb-no{background:var(--bg2);color:var(--t2);border:1.5px solid var(--border)}
+.sb-call{background:var(--success);color:#fff}
+.sb-text{background:var(--accent);color:#fff}
+.sb-del{background:var(--bg2);color:var(--t3);border:1.5px solid var(--border);grid-column:1/-1}
+.sb-full{grid-column:1/-1}
+.reach-note-area{display:none}
+.reach-input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px;color:var(--t1);font-size:15px;font-family:inherit;resize:none;min-height:80px;outline:none;line-height:1.6;margin-bottom:10px}
+.reach-input::placeholder{color:var(--t3)}
+.reach-save{width:100%;height:48px;background:var(--accent);color:#fff;border:none;border-radius:var(--r-pill);font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
+.contact-name{font-size:18px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.contact-role{font-size:14px;color:var(--t2);margin-bottom:4px}
+.contact-phone{font-size:22px;font-weight:800;color:var(--accent);margin-bottom:16px;display:block}
+
+/* Alerts */
+.alert-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-card);padding:14px;margin-bottom:10px;position:relative}
+.alert-item.alert-urgent{border-color:#FECACA;background:#FFF5F5}
+.alert-item.alert-good{border-color:#86EFAC;background:#F0FDF4}
+.alert-item.alert-watch{border-color:#FDE68A;background:#FFFBEB}
+.alert-tag{height:22px;padding:0 10px;border-radius:var(--r-pill);font-size:11px;font-weight:700;display:inline-flex;align-items:center;margin-bottom:8px}
+.at-r{background:#FEE2E2;color:var(--error)}
+.at-g{background:#DCFCE7;color:#15803D}
+.at-a{background:#FEF3C7;color:#92400E}
+.at-b{background:#DBEAFE;color:var(--accent)}
+.alert-name{font-size:16px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.alert-desc{font-size:14px;color:var(--t2);line-height:1.5;margin-bottom:10px}
+.alert-time{font-size:12px;color:var(--t3);margin-bottom:10px}
+.alert-btns{display:flex;gap:8px;flex-wrap:wrap}
+.alert-btn{height:38px;padding:0 16px;border-radius:var(--r-pill);border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.15s;display:inline-flex;align-items:center;gap:5px}
+.alert-btn:active{opacity:0.85}
+.ab-action{background:var(--accent);color:#fff}
+.ab-call-g{background:var(--success);color:#fff}
+.ab-text-b{background:var(--accent);color:#fff}
+.ab-delete{background:var(--bg2);color:var(--t3);border:1px solid var(--border)}
+
+/* Pre-call screen */
+.precall-number{font-size:28px;font-weight:900;color:var(--accent);display:block;margin:8px 0 4px;cursor:pointer}
+.precall-number:hover{text-decoration:underline}
+.precall-note{background:var(--bg);border-radius:10px;padding:10px 12px;margin:10px 0;font-size:13px;color:var(--t2);line-height:1.5;border:1px solid var(--border)}
+.precall-call-btn{width:100%;height:52px;background:var(--success);color:#fff;border:none;border-radius:var(--r-btn);font-size:17px;font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px}
+.precall-cancel{width:100%;height:44px;background:var(--bg2);color:var(--t2);border:1px solid var(--border);border-radius:var(--r-btn);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
+
+/* Pre-text screen */
+.pretext-msg{width:100%;background:var(--bg);border:1.5px solid var(--accent);border-radius:12px;padding:12px;color:var(--t1);font-size:15px;font-family:inherit;resize:none;min-height:100px;outline:none;line-height:1.6;margin:8px 0 10px}
+.pretext-send{width:100%;height:50px;background:var(--accent);color:#fff;border:none;border-radius:var(--r-btn);font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:8px}
+.pretext-cancel{width:100%;height:44px;background:var(--bg2);color:var(--t2);border:1px solid var(--border);border-radius:var(--r-btn);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
+
+/* Toast / undo */
+#toast{position:fixed;bottom:calc(var(--safe-b) + 64px);left:50%;transform:translateX(-50%);background:var(--t1);color:#fff;font-size:14px;font-weight:600;padding:12px 20px;border-radius:var(--r-pill);z-index:250;display:none;white-space:nowrap;max-width:90vw;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.2)}
+#toast.show{display:flex;align-items:center;gap:10px;animation:tin 0.22s cubic-bezier(.4,0,.2,1)}
+@keyframes tin{from{opacity:0;transform:translateX(-50%) translateY(6px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.toast-undo{background:rgba(255,255,255,0.2);border:none;color:#fff;font-size:13px;font-weight:700;padding:4px 10px;border-radius:20px;cursor:pointer;font-family:inherit}
+
+/* Empty state */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:60%;gap:14px;padding:40px;text-align:center}
+.empty-icon{opacity:0.2}
+.empty-txt{font-size:16px;font-weight:500;color:var(--t3);line-height:1.5}
+
+/* Src note */
+.src-note{font-size:11px;color:var(--t3);text-align:center;padding:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="sb"></div>
+
+<!-- HEADER -->
+<div id="hdr">
+  <div class="hdr-main">
+    <div class="logo" onclick="goHome()">
+      <svg width="26" height="30" viewBox="0 0 120 135" fill="none">
+        <text x="2" y="24" font-family="Arial Black,sans-serif" font-weight="900" font-size="21" fill="#CC0000" letter-spacing="2">UTAH</text>
+        <path d="M8 33L8 90Q8 124 60 124Q112 124 112 90L112 33L88 33L88 90Q88 104 60 104Q32 104 32 90L32 33Z" fill="#CC0000"/>
+        <path d="M32 33L32 90Q32 104 60 104Q88 104 88 90L88 33L72 33L72 90Q72 96 60 96Q48 96 48 90L48 33Z" fill="#F7F8FA"/>
+      </svg>
+      <span class="rz-word">RED<b>ZONE</b></span>
+    </div>
+    <div class="hdr-r">
+      <div class="coach-wrap">
+        <div class="coach-btn" onclick="toggleCoachDrop()">
+          <span id="coach-label">Coach Scalley</span>
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="coach-drop" id="coach-drop">
+          <div class="cd-item on" onclick="selCoach('scalley',this)"><div class="cd-av" style="background:#FEE2E2;color:#DC2626">MS</div><div><div class="cd-name">Morgan Scalley</div><div class="cd-role">Head Coach · All Positions</div></div></div>
+          <div class="cd-item" onclick="selCoach('breck',this)"><div class="cd-av" style="background:#DBEAFE;color:#2563EB">IB</div><div><div class="cd-name">Inoke Breckterfield</div><div class="cd-role">Defensive Ends · EDGE/DL</div></div></div>
+          <div class="cd-item" onclick="selCoach('gross',this)"><div class="cd-av" style="background:#DCFCE7;color:#16A34A">JG</div><div><div class="cd-name">Jordan Gross</div><div class="cd-role">Offensive Line · OT/IOL</div></div></div>
+          <div class="cd-item" onclick="selCoach('swan',this)"><div class="cd-av" style="background:#FEF3C7;color:#92400E">CS</div><div><div class="cd-name">Colton Swan</div><div class="cd-role">DC / Linebackers · LB/CB/S</div></div></div>
+          <div class="cd-item" onclick="selCoach('elliss',this)"><div class="cd-av" style="background:#F3E8FF;color:#7C3AED">LE</div><div><div class="cd-name">Luther Elliss</div><div class="cd-role">Defensive Tackles · DL</div></div></div>
+          <div class="cd-item" onclick="selCoach('bumphis',this)"><div class="cd-av" style="background:#DBEAFE;color:#2563EB">CB</div><div><div class="cd-name">Chad Bumphis</div><div class="cd-role">Wide Receivers · WR</div></div></div>
+        </div>
+      </div>
+      <div class="bell-btn" onclick="openOverlay('alerts-overlay')">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--t2)" stroke-width="1.8" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <div class="bell-badge" id="bell-count">3</div>
+      </div>
+    </div>
+  </div>
+  <!-- Summary strip — Today only -->
+  <div class="sum-strip" id="sum-strip" style="display:none">
+    <div class="sum-card sc-fire" onclick="scrollToSection('fire')">
+      <div><div class="sum-num" id="sc-fire-n">0</div><div class="sum-lbl">On Fire</div></div>
+    </div>
+    <div class="sum-card sc-due" onclick="scrollToSection('due')">
+      <div><div class="sum-num" id="sc-due-n">0</div><div class="sum-lbl">Due Today</div></div>
+    </div>
+    <div class="sum-card sc-track" onclick="scrollToSection('track')">
+      <div><div class="sum-num" id="sc-track-n">0</div><div class="sum-lbl">On Track</div></div>
+    </div>
+    <div class="sum-card sc-atier" onclick="swTab('board')">
+      <div><div class="sum-num" id="sc-atier-n">0</div><div class="sum-lbl">A-Tier</div></div>
+    </div>
+  </div>
+  <!-- Board header -->
+  <div id="board-hdr-wrap" style="display:none">
+    <div class="yr-row">
+      <div class="yr" id="yr-2026" onclick="swYr('2026',this)">2026</div>
+      <div class="yr on" id="yr-2027" onclick="swYr('2027',this)">2027</div>
+      <div class="yr" id="yr-2028" onclick="swYr('2028',this)">2028</div>
+      <div class="yr" id="yr-2029" onclick="swYr('2029',this)">2029</div>
+    </div>
+    <div class="pos-scroll" id="pos-row"></div>
+  </div>
+</div>
+
+<div id="scroll">
+
+<!-- ══ TODAY ══ -->
+<div class="pane on" id="pane-today">
+  <div class="today-scroll" id="today-scroll">
+    <!-- ON FIRE section rendered by JS -->
+    <div id="fire-section"></div>
+    <!-- DUE TODAY section rendered by JS -->
+    <div id="due-section"></div>
+    <!-- PRIORITY section rendered by JS -->
+    <div id="priority-section"></div>
+    <!-- ON TRACK -->
+    <div id="track-section"></div>
+  </div>
+</div>
+
+<!-- ══ BOARD ══ -->
+<div class="pane" id="pane-board">
+  <div class="split">
+    <div class="split-l">
+      <div class="board-scroll"><div class="board-grid" id="board-grid"></div></div>
+      <div class="src-note">On3 · 247Sports · Rivals · May 4, 2026</div>
+    </div>
+    <div class="split-r" id="board-r">
+      <div class="empty-state">
+        <svg class="empty-icon" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--t1)" stroke-width="1" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        <p class="empty-txt">Tap any recruit to open their full profile</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ WAR ROOM ══ -->
+<div class="pane" id="pane-warroom">
+  <div class="wr-scroll">
+    <div style="padding:8px 16px 6px;font-size:13px;color:var(--t2)">2027 Class · <strong style="color:var(--t1)">Tap any number to drill down</strong></div>
+    <div class="wr-grid">
+      <div class="wr-card" onclick="drillCommitted()"><div class="wr-num" style="color:var(--success)">3</div><div class="wr-lbl">Committed</div><div class="wr-sub" style="color:var(--success)">Parks · Henderson · Teeples</div></div>
+      <div class="wr-card" onclick="drillOffered()"><div class="wr-num" style="color:var(--accent)">40+</div><div class="wr-lbl">Offers Out</div><div class="wr-sub" style="color:var(--t3)">All positions</div></div>
+      <div class="wr-card" onclick="drillOVs()"><div class="wr-num" style="color:var(--accent)">5</div><div class="wr-lbl">OVs Scheduled</div><div class="wr-sub" style="color:var(--accent)">All in June</div></div>
+      <div class="wr-card" onclick="showDeadPeriod()"><div class="wr-num" style="color:var(--warning)">30</div><div class="wr-lbl">Days: Dead Period</div><div class="wr-sub" style="color:var(--error)">June 1 — act now</div></div>
+      <div class="wr-card" onclick="swTab('portal')"><div class="wr-num" style="color:var(--accent)">2</div><div class="wr-lbl">Portal Targets</div><div class="wr-sub" style="color:var(--accent)">Walker urgent</div></div>
+      <div class="wr-card" onclick="drillAtRisk()"><div class="wr-num" style="color:var(--error)">4</div><div class="wr-lbl">At Risk</div><div class="wr-sub" style="color:var(--error)">Need action today</div></div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">Scholarship spots still needed — 2027 class</div>
+      <div class="bar-row"><div class="bar-lbl">OT</div><div class="bar-track" onclick="swTabAndPos('board','OT')"><div class="bar-fill" style="width:90%;background:var(--error);color:#fff">2 spots — critical</div></div><div class="bar-val" style="color:var(--error)">2</div></div>
+      <div class="bar-row"><div class="bar-lbl">EDGE</div><div class="bar-track" onclick="swTabAndPos('board','EDGE')"><div class="bar-fill" style="width:55%;background:var(--warning);color:#fff">1 spot open</div></div><div class="bar-val" style="color:var(--warning)">1</div></div>
+      <div class="bar-row"><div class="bar-lbl">IOL</div><div class="bar-track" onclick="swTabAndPos('board','IOL')"><div class="bar-fill" style="width:55%;background:var(--warning);color:#fff">1 spot open</div></div><div class="bar-val" style="color:var(--warning)">1</div></div>
+      <div class="bar-row"><div class="bar-lbl">WR</div><div class="bar-track" onclick="swTabAndPos('board','WR')"><div class="bar-fill" style="width:40%;background:var(--info);color:#fff">1 spot open</div></div><div class="bar-val" style="color:var(--info)">1</div></div>
+      <div class="bar-row"><div class="bar-lbl">CB</div><div class="bar-track" onclick="swTabAndPos('board','CB')"><div class="bar-fill" style="width:40%;background:var(--info);color:#fff">1 spot open</div></div><div class="bar-val" style="color:var(--info)">1</div></div>
+      <div class="bar-row"><div class="bar-lbl">RB</div><div class="bar-track" onclick="toast('RB depth solid — Jonah Mailei 92% RPM + Carvell Wafer Jr 41%')"><div class="bar-fill" style="width:20%;background:var(--success);color:#fff">Solid</div></div><div class="bar-val" style="color:var(--success)">0</div></div>
+    </div>
+    <div style="padding:4px 16px 6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--t3)">2027 Committed Class</div>
+    <div class="wr-list-box">
+      <div class="wr-row" onclick="selRecruit('henderson');swTab('board')"><div class="wr-dot" style="background:var(--success)"></div><div class="wr-info"><div class="wr-name">Jack Henderson — EDGE · Boise, ID</div><div class="wr-detail">Committed Apr 7, 2026 · ★★★ · Idaho #1 · ⚠ Barbara birthday May 3</div></div><div class="wr-badge wb-g">Locked</div></div>
+      <div class="wr-row" onclick="selRecruit('parks');swTab('board')"><div class="wr-dot" style="background:var(--success)"></div><div class="wr-info"><div class="wr-name">Kingston Parks — WR · Aledo, TX</div><div class="wr-detail">Committed Nov 20, 2025 · ★★★ · 247 WR #154 · Brother of Money Parks</div></div><div class="wr-badge wb-g">Locked</div></div>
+      <div class="wr-row" onclick="selRecruit('teeples');swTab('board')"><div class="wr-dot" style="background:var(--success)"></div><div class="wr-info"><div class="wr-name">Tiki Teeples — DL · Waddell, AZ</div><div class="wr-detail">Committed Apr 22, 2026 · ★★★ · AZ DL #21 · 12.5 sacks junior year</div></div><div class="wr-badge wb-g">Locked</div></div>
+    </div>
+    <div style="padding:4px 16px 6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--t3)">Upcoming Official Visits</div>
+    <div class="wr-list-box">
+      <div class="wr-row" onclick="selRecruit('hildebrand');swTab('board')"><div class="wr-dot" style="background:var(--warning)"></div><div class="wr-info"><div class="wr-name">Jake Hildebrand — OT · June 15-17</div><div class="wr-detail">★★★★ · 247 OT #8 · Final 4: Utah TxA&M Oregon ASU · ASU visits June 12 first</div></div><div class="wr-badge wb-a">43 days</div></div>
+      <div class="wr-row" onclick="selRecruit('moseley');swTab('board')"><div class="wr-dot" style="background:var(--warning)"></div><div class="wr-info"><div class="wr-name">Darion Moseley — WR · June 12-14</div><div class="wr-detail">★★★ · Thompson HS AL · 1,128 rec yds 2025 · State champion</div></div><div class="wr-badge wb-a">39 days</div></div>
+      <div class="wr-row" onclick="selRecruit('joshua');swTab('board')"><div class="wr-dot" style="background:var(--warning)"></div><div class="wr-info"><div class="wr-name">Mason Joshua — OT/IOL · June 5-7</div><div class="wr-detail">★★★ · Forney HS TX · Decides July 4 · Arizona visits May 29 first</div></div><div class="wr-badge wb-a">32 days</div></div>
+      <div class="wr-row" onclick="selRecruit('bruce');swTab('board')"><div class="wr-dot" style="background:var(--warning)"></div><div class="wr-info"><div class="wr-name">Dylin Bruce — CB · June 19-21</div><div class="wr-detail">★★★ · Huntington Beach HS CA · Multiple P5 offers</div></div><div class="wr-badge wb-a">46 days</div></div>
+      <div class="wr-row" onclick="selRecruit('ioane');swTab('board')"><div class="wr-dot" style="background:var(--warning)"></div><div class="wr-info"><div class="wr-name">Jag Ioane — EDGE · June 19-21</div><div class="wr-detail">★★★ · Orem HS UT · BYU 28% Utah 24% · In-state</div></div><div class="wr-badge wb-a">46 days</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RECRUITING NEWS ══ -->
+<div class="pane" id="pane-news">
+  <div class="rn-scroll" id="rn-list"></div>
+</div>
+
+<!-- ══ MORE ══ -->
+<div class="pane" id="pane-more">
+  <div style="overflow-y:auto;flex:1;padding:12px">
+    <div style="font-size:18px;font-weight:800;color:var(--t1);padding:8px 4px 12px">More</div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r-card);overflow:hidden;margin-bottom:10px;box-shadow:var(--card-shadow)">
+      <div style="padding:14px 16px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between" onclick="showWatchList()">
+        <div><div style="font-size:15px;font-weight:600;color:var(--t1)">Watch List</div><div style="font-size:12px;color:var(--t3)">Players being evaluated — no offer yet</div></div>
+        <span style="color:var(--t3);font-size:20px">›</span>
+      </div>
+      <div style="padding:14px 16px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between" onclick="showPortal()">
+        <div><div style="font-size:15px;font-weight:600;color:var(--t1)">Transfer Portal</div><div style="font-size:12px;color:var(--t3)">2 active targets · Jordan Walker urgent</div></div>
+        <span style="color:var(--t3);font-size:20px">›</span>
+      </div>
+      <div style="padding:14px 16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between" onclick="toast('Settings — coming in production version')">
+        <div><div style="font-size:15px;font-weight:600;color:var(--t1)">Settings</div><div style="font-size:12px;color:var(--t3)">Notifications, compliance, preferences</div></div>
+        <span style="color:var(--t3);font-size:20px">›</span>
+      </div>
+    </div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r-card);overflow:hidden;margin-bottom:10px;box-shadow:var(--card-shadow)">
+      <div style="padding:14px 16px;background:#FFF5F5;border-bottom:1px solid #FECACA">
+        <div style="font-size:13px;font-weight:700;color:var(--error);margin-bottom:2px">⚡ Spencer Fano — 9th Overall Pick, 2026 NFL Draft</div>
+        <div style="font-size:13px;color:var(--t2)">Utah has now developed back-to-back first-round NFL offensive linemen. Use this in every OL recruit conversation today.</div>
+      </div>
+      <div style="padding:14px 16px">
+        <div style="font-size:13px;font-weight:700;color:var(--t1);margin-bottom:2px">Teamworks Sync</div>
+        <div style="font-size:13px;color:var(--t2)">Last synced: Today 8:42am · Contact logs, visit records, and compliance calendar are current.</div>
+      </div>
+    </div>
+    <div id="wl-content" style="display:none"></div>
+    <div id="portal-content" style="display:none"></div>
+  </div>
+</div>
+
+</div><!-- end scroll -->
+
+<!-- BOTTOM NAV -->
+<div id="nav">
+  <div class="nt on" id="nt-today" onclick="swTab('today',this)">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Today</span>
+  </div>
+  <div class="nt" id="nt-board" onclick="swTab('board',this)">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    <span>Board</span>
+  </div>
+  <div class="nt" id="nt-warroom" onclick="swTab('warroom',this)">
+    <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    <span>War Room</span>
+  </div>
+  <div class="nt" id="nt-news" onclick="swTab('news',this)">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span>News</span>
+  </div>
+  <div class="nt" id="nt-more" onclick="swTab('more',this)">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+    <span>More</span>
+  </div>
+</div>
+
+<!-- ══ OVERLAYS ══ -->
+
+<!-- ALERTS -->
+<div class="overlay" id="alerts-overlay" onclick="closeOverlayBg(event,'alerts-overlay')">
+  <div class="sheet" style="max-height:88dvh;overflow-y:auto">
+    <div class="sheet-handle"></div>
+    <div style="font-size:22px;font-weight:800;color:var(--t1);margin-bottom:4px" id="alerts-title">Alerts</div>
+    <div style="font-size:13px;color:var(--t2);margin-bottom:16px">Swipe left or tap Delete to clear. Tap an action to complete it and remove it from your board.</div>
+    <div id="alerts-list"></div>
+  </div>
+</div>
+
+<!-- PRE-CALL -->
+<div class="overlay" id="precall-overlay" onclick="closeOverlayBg(event,'precall-overlay')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div style="font-size:13px;font-weight:600;color:var(--t3);margin-bottom:4px" id="precall-name-lbl">Calling</div>
+    <div style="font-size:20px;font-weight:800;color:var(--t1);margin-bottom:4px" id="precall-name"></div>
+    <div style="font-size:13px;color:var(--t3);margin-bottom:2px" id="precall-pos"></div>
+    <span class="precall-number" id="precall-number" onclick="dialNumber()"></span>
+    <div style="font-size:12px;font-weight:600;color:var(--t3);margin-bottom:4px">Last conversation note:</div>
+    <div class="precall-note" id="precall-note"></div>
+    <button class="precall-call-btn" onclick="initiateCall()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      Call Now
+    </button>
+    <button class="precall-cancel" onclick="closeOverlay('precall-overlay')">Cancel</button>
+  </div>
+</div>
+
+<!-- PRE-TEXT -->
+<div class="overlay" id="pretext-overlay" onclick="closeOverlayBg(event,'pretext-overlay')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div style="font-size:20px;font-weight:800;color:var(--t1);margin-bottom:4px" id="pretext-name"></div>
+    <div style="font-size:13px;color:var(--t3);margin-bottom:8px" id="pretext-num"></div>
+    <div style="font-size:12px;font-weight:600;color:var(--t3);margin-bottom:4px">Suggested message — edit before sending:</div>
+    <textarea class="pretext-msg" id="pretext-msg"></textarea>
+    <button class="pretext-send" onclick="sendText()">Open in Messages →</button>
+    <button class="pretext-cancel" onclick="closeOverlay('pretext-overlay')">Cancel</button>
+  </div>
+</div>
+
+<!-- X PROFILE -->
+<div class="overlay" id="x-overlay" onclick="closeOverlayBg(event,'x-overlay')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div style="font-size:20px;font-weight:800;color:var(--t1);margin-bottom:4px" id="x-name"></div>
+    <div style="font-size:14px;color:var(--t2);margin-bottom:12px" id="x-handle"></div>
+    <div style="background:var(--bg);border-radius:12px;padding:12px;margin-bottom:14px;font-size:13px;color:var(--t2);line-height:1.5" id="x-latest"></div>
+    <button class="pretext-send" onclick="openXProfile()">Open on X →</button>
+    <button class="pretext-cancel" onclick="closeOverlay('x-overlay')">Cancel</button>
+  </div>
+</div>
+
+<!-- DID YOU REACH -->
+<div class="overlay" id="reach-overlay" onclick="closeOverlayBg(event,'reach-overlay')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div style="font-size:20px;font-weight:800;color:var(--t1);margin-bottom:4px" id="reach-name"></div>
+    <div style="font-size:14px;color:var(--t2);margin-bottom:16px">Log what happened — this updates the recruit's file and removes the alert from your board.</div>
+    <div class="sheet-btns">
+      <button class="sheet-btn sb-yes" onclick="showReachNote()">✓ Yes, reached them</button>
+      <button class="sheet-btn sb-no" onclick="reachNo()">✗ Couldn't connect</button>
+    </div>
+    <div class="reach-note-area" id="reach-note-area">
+      <div style="font-size:13px;font-weight:600;color:var(--t2);margin-bottom:6px">What did you discuss? (use voice-to-text on your keyboard)</div>
+      <textarea class="reach-input" id="reach-input" placeholder="Notes from the conversation — what was said, next steps, family updates..."></textarea>
+      <button class="reach-save" onclick="saveReach()">Save and Log Contact</button>
+    </div>
+  </div>
+</div>
+
+<!-- FAMILY CONTACT -->
+<div class="overlay" id="contact-overlay" onclick="closeOverlayBg(event,'contact-overlay')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="contact-name" id="contact-name"></div>
+    <div class="contact-role" id="contact-role"></div>
+    <span class="contact-phone" id="contact-phone" onclick="dialContactNumber()"></span>
+    <div class="sheet-btns">
+      <button class="sheet-btn sb-call" onclick="callContact()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Call</button>
+      <button class="sheet-btn sb-text" onclick="textContact()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Text</button>
+      <button class="sheet-btn sb-del" onclick="closeOverlay('contact-overlay')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKLIST ASSIGN -->
+<div class="overlay" id="assign-overlay" onclick="closeOverlayBg(event,'assign-overlay')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div style="font-size:20px;font-weight:800;color:var(--t1);margin-bottom:4px" id="assign-action"></div>
+    <div style="font-size:14px;color:var(--t2);margin-bottom:14px">Assign this task and set a due date</div>
+    <div style="font-size:13px;font-weight:600;color:var(--t2);margin-bottom:6px">Assign to:</div>
+    <select id="assign-staff" style="width:100%;height:44px;border:1.5px solid var(--border);border-radius:var(--r-btn);font-size:15px;font-family:inherit;padding:0 12px;background:#fff;color:var(--t1);margin-bottom:12px;outline:none">
+      <option>Coach Breckterfield</option>
+      <option>Coach Gross</option>
+      <option>Coach Swan</option>
+      <option>Coach Elliss</option>
+      <option>Coach Bumphis</option>
+      <option>Coach Scalley</option>
+      <option>Recruiting Coordinator</option>
+    </select>
+    <div style="font-size:13px;font-weight:600;color:var(--t2);margin-bottom:6px">Due date:</div>
+    <input type="date" id="assign-date" style="width:100%;height:44px;border:1.5px solid var(--border);border-radius:var(--r-btn);font-size:15px;font-family:inherit;padding:0 12px;background:#fff;color:var(--t1);margin-bottom:16px;outline:none">
+    <button class="reach-save" onclick="saveAssignment()">Save Assignment</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ══ VERIFIED DATA — May 4 2026 ════════════════════════════════
+// Sources: On3, 247Sports, Rivals, SI, Deseret News, KSL
+// Staff: utahutes.com 2026 verified
+// Whittingham/Harding/Detmer/Simon — GONE to Michigan
+
+const COACHES={
+  scalley:{name:'Coach Scalley',short:'Scalley',positions:null,init:'MS',color:'#FEE2E2',tc:'#DC2626'},
+  breck:{name:'Coach Breckterfield',short:'Breckterfield',positions:['EDGE','DL'],init:'IB',color:'#DBEAFE',tc:'#2563EB'},
+  gross:{name:'Coach Gross',short:'Gross',positions:['OT','IOL'],init:'JG',color:'#DCFCE7',tc:'#16A34A'},
+  swan:{name:'Coach Swan',short:'Swan',positions:['LB','CB','S','WR','RB','QB','ATH'],init:'CS',color:'#FEF3C7',tc:'#92400E'},
+  elliss:{name:'Coach Elliss',short:'Elliss',positions:['DL'],init:'LE',color:'#F3E8FF',tc:'#7C3AED'},
+  bumphis:{name:'Coach Bumphis',short:'Bumphis',positions:['WR'],init:'CB',color:'#DBEAFE',tc:'#2563EB'}
+};
+
+const RECRUITS=[
+  // ── COMMITTED ─────────────────────────────────────────────
+  {id:'henderson',pos:'EDGE',coachKey:'breck',tier:'A',status:'commit',gone:false,
+   name:'Jack Henderson',hs:'Bishop Kelly HS',city:'Boise, ID',ht:"6'3\"",wt:'235',stars:3,
+   rank:'On3 #1046 · Idaho #1 · 247 EDGE #90',rpm:100,
+   photo:'https://pbs.twimg.com/profile_images/1907907983604453376/xU6YNKxr_400x400.jpg',
+   avBg:'#DCFCE7',avTc:'#15803D',
+   shortSt:'Committed April 7, 2026 · Idaho #1 · OV confirmed June 5-7',
+   relScore:9,
+   lastMeaningful:'Texted Breckterfield at 11pm after committing: "Coach I\'m all in. Let\'s build something special." Dan texted this morning to confirm the June OV.',
+   family:[
+     {init:'DH',bg:'#DBEAFE',tc:'#1D4ED8',name:'Dan Henderson',role:'Father · Primary contact · Former HS coach',phone:'208-890-5949',msg:"Hi Dan — Coach Breckterfield here. So pumped about the OV June 5-7. Can't wait to have Jack and the whole family here!"},
+     {init:'BH',bg:'#FEF3C7',tc:'#92400E',name:'Barbara Henderson',role:'Mother · Birthday TOMORROW May 3 · ⚠',phone:'208-890-5948',msg:"Barbara — Coach Breckterfield here. Happy birthday! So excited to have Jack as part of our Utah family. Go Utes!"},
+     {init:'CC',bg:'#F1F5F9',tc:'#475569',name:'Coach Chris Culig',role:'Head Coach · Bishop Kelly HS · Met Jordan Gross at coaching clinic 2019',phone:'208-555-0144',msg:"Coach Culig — Breckterfield here. Jack is everything we hoped for. Thank you for the relationship. We'll take great care of him."}
+   ],
+   personal:['Younger brother Tyler plays peewee football and idolizes Jack','Dad Dan was a HS football coach before going into business','Mom Barbara baked cookies for Bishop Kelly staff before every game','Dog named Boise','4.7 forty · 3.5 GPA · 76" wingspan','13-0 State Champions 2025 · First Team All-State Idaho'],
+   offers:['Utah ✓','Washington State','San Diego State','Fresno State','New Mexico','San Jose State','Air Force'],
+   compIntel:[{school:'None active — fully committed',pos:'cp-trail'}],
+   nil:{ours:'Not discussed — committed before NIL was a factor',theirs:'N/A',notes:'Keep it that way. Family is loyal.'},
+   stats:'67 tackles · 24 TFLs · 7 sacks · 35 QB hurries · 3 forced fumbles · 13-0 State Champions · 1st Team All-State Idaho 2025 · 4.7 forty · 3.5 GPA · 76" wingspan. Projects as standup EDGE/LB. First to be offered by Utah, first to commit.',
+   hudl:'https://www.hudl.com/profile/19341555',
+   xHandle:'@HendersonJack27',
+   xLatest:'Just posted "See you soon Salt Lake City 🔴" with Utah block U — 847 likes in 3 hours. 3 other recruits DMed him asking about Utah.',
+   checklist:[
+     {stage:'Stage 1 — Identified',items:[{a:'Added to board',who:'Recruiting Coordinator',date:'Mar 18, 2026',done:true},{a:'Film reviewed',who:'Coach Breckterfield',date:'Mar 20, 2026',done:true}]},
+     {stage:'Stage 2 — First Contact',items:[{a:'Followed on X',who:'Coach Breckterfield',date:'Mar 29, 2026',done:true},{a:'Sent first text',who:'Coach Breckterfield',date:'Mar 29, 2026',done:true},{a:'Made first phone call',who:'Coach Breckterfield',date:'Mar 30, 2026',done:true}]},
+     {stage:'Stage 3 — Relationship Building',items:[{a:'High school coach contacted',who:'Coach Breckterfield',date:'Mar 22, 2026',done:true},{a:'Parents contacted — family call made',who:'Coach Breckterfield',date:'Mar 30, 2026',done:true},{a:'Unofficial campus visit completed',who:'Recruiting Coordinator',date:'Mar 28, 2026',done:true}]},
+     {stage:'Stage 4 — Offer',items:[{a:'Offer extended — verbal call made',who:'Coach Scalley',date:'Mar 29, 2026',done:true},{a:'Official visit scheduled',who:'Recruiting Coordinator',date:'June 5-7, 2026',done:true}]},
+     {stage:'Stage 5 — Decision',items:[{a:'Verbal commitment received',who:'Coach Scalley',date:'Apr 7, 2026',done:true},{a:'Commitment announced publicly',who:'Jack Henderson',date:'Apr 7, 2026',done:true}]},
+     {stage:'Stage 6 — Signing',items:[{a:'Barbara Henderson birthday text — May 3',who:'',date:'',done:false,overdue:true},{a:'Signing Day scheduled',who:'',date:'',done:false},{a:'NLI signed',who:'',date:'',done:false}]}
+   ],
+   comms:[
+     {icon:'📱',who:'Dan Henderson',note:'Dan texted this morning — family confirmed for June 5-7 OV. Tyler (younger brother) is coming too.',time:'Today, 8:47am'},
+     {icon:'📱',who:'Coach Breckterfield',note:'Checked in — Jack reposted Utah Football content. All positive retention signals. Posted Utah block U emoji.',time:'May 1, 2026'},
+     {icon:'📞',who:'Coach Scalley',note:'Post-commitment welcome call — family thrilled. Dan very engaged, asked about academic support.',time:'Apr 7, 2026'}
+   ],
+   note:'OV confirmed June 5-7. Bring Tyler the younger brother. Barbara birthday tomorrow — text her.'},
+
+  {id:'parks',pos:'WR',coachKey:'bumphis',tier:'A',status:'commit',gone:false,
+   name:'Kingston Parks',hs:'The Oakridge School',city:'Aledo (Arlington), TX',ht:"6'3\"",wt:'170',stars:3,
+   rank:'On3 83 · 247 WR #154',rpm:100,
+   photo:null,avBg:'#DCFCE7',avTc:'#15803D',
+   shortSt:'Committed Nov 20, 2025 — first commit, brother of Money Parks',
+   relScore:8,lastMeaningful:'Coach Bumphis called May 1 — still very committed, excited about the class building',
+   family:[{init:'PF',bg:'#DBEAFE',tc:'#1D4ED8',name:'Parks Family',role:'Aledo TX · First commit · Brother of Money Parks (former Utah WR)',phone:'817-555-0120',msg:'Hi — Coach Bumphis here. Just wanted to check in and say how excited we are to have Kingston as part of our family. Go Utes!'}],
+   personal:['Younger brother of Money Parks (former Utah WR)','Texas private school program','Early commitment shows high character and loyalty'],
+   offers:['Utah ✓','Arizona','Middle Tennessee','North Texas','Sacramento State'],
+   compIntel:[{school:'None active — committed',pos:'cp-trail'}],
+   nil:{ours:'Not discussed',theirs:'N/A',notes:'Committed early before NIL was a factor.'},
+   stats:'WR from The Oakridge School in Aledo TX. Younger brother of former Utah WR Money Parks. 247 WR #154. Chose Utah early over Arizona, Middle Tennessee.',
+   hudl:null,xHandle:'@KingstonParks_',xLatest:'Posted Utah commitment graphic. Still engaging with Utah content regularly.',
+   checklist:[{stage:'Stage 6 — Signing',items:[{a:'Commitment announced',who:'Kingston Parks',date:'Nov 20, 2025',done:true},{a:'OV scheduled — fall 2026',who:'Recruiting Coordinator',date:'Fall TBD',done:false,sched:true},{a:'NLI signed',who:'',date:'',done:false}]}],
+   comms:[{icon:'📞',who:'Coach Bumphis',note:'Check-in call — still very committed, excited about the class. Wants to room with Jack Henderson.',time:'May 1, 2026'}],
+   note:'Retention — keep warm. Wants to room with Jack Henderson — log this.'},
+
+  {id:'teeples',pos:'DL',coachKey:'elliss',tier:'A',status:'commit',gone:false,
+   name:'Tiki Teeples',hs:'Canyon View HS',city:'Waddell, AZ',ht:"6'4\"",wt:'265',stars:3,
+   rank:'On3 84 · 247 DL #99 · AZ DL #21',rpm:100,
+   photo:null,avBg:'#DCFCE7',avTc:'#15803D',
+   shortSt:'Committed April 22, 2026 · 12.5 sacks junior year',
+   relScore:7,lastMeaningful:'Commitment call Apr 22 — dad was emotional, said this was the family\'s dream program',
+   family:[{init:'TF',bg:'#F1F5F9',tc:'#475569',name:'Teeples Family',role:'Waddell AZ · Both parents involved · Dad emotional on commitment call',phone:'602-555-0188',msg:"Coach Elliss here — just thinking about your family and how excited we are. Tiki is going to be special."}],
+   personal:['12.5 sacks junior year · 525 lb squat','Frame projects 30-40 lbs development','First-team all-region · second-team all-state','Father played HS football — very involved'],
+   offers:['Utah ✓','Iowa State','Texas Tech','West Virginia','Fresno State','Idaho','Utah State','Kansas State','Boise State'],
+   compIntel:[{school:'Texas Tech ran hard — NIL offer',pos:'cp-trail'},{school:'Iowa State very close',pos:'cp-trail'}],
+   nil:{ours:'Standard package discussed',theirs:'Texas Tech offered more — Utah won on culture',notes:'Development pitch won this over NIL. Keep that narrative strong.'},
+   stats:'63 tackles · 18 TFLs · 12.5 sacks · 1 INT junior year. 525 lb squat. Interior DL projection. 6\'4" 265 with room to add 30-40 lbs in S&C program.',
+   hudl:null,xHandle:'@TikiTeeples55',xLatest:'Posted "Building something special in SLC" with Utah gear on.',
+   checklist:[{stage:'Stage 6 — Signing',items:[{a:'Verbal commitment received',who:'Coach Scalley',date:'Apr 22, 2026',done:true},{a:'OV scheduled — June 2026',who:'Recruiting Coordinator',date:'June TBD',done:false,sched:true},{a:'NLI signed',who:'',date:'',done:false}]}],
+   comms:[{icon:'📞',who:'Coach Scalley',note:'Commitment call — dad got emotional. Said Utah was the family\'s dream program.',time:'Apr 22, 2026'}],
+   note:'Retention — reinforce decision. Dad is very emotional — call him personally.'},
+
+  // ── PRIORITY TARGETS ──────────────────────────────────────
+  {id:'reyna',pos:'EDGE',coachKey:'breck',tier:'A',status:'priority',gone:false,
+   name:'Achilles Reyna',hs:'Rainier Beach HS',city:'Seattle, WA',ht:"6'7\"",wt:'240',stars:3,
+   rank:'On3 85 · 247 EDGE #67 · WA EDGE #1',rpm:71,
+   photo:null,avBg:'#FEE2E2',avTc:'#DC2626',
+   shortSt:'Utah 71% RPM — leading · URGENT: Oregon just offered this morning',
+   relScore:6,lastMeaningful:'Coach Breckterfield call Apr 26 — asked detailed questions about the defensive scheme and pass rush development',
+   family:[{init:'RF',bg:'#FEE2E2',tc:'#DC2626',name:'Reyna Family',role:'Seattle WA · Father is a former college athlete · Positive connection',phone:'206-555-0177',msg:"Coach Breckterfield here — Achilles, the Utah coaching staff believes in you at the highest level. We need to talk today."}],
+   personal:['6\'7\" elite wingspan for EDGE — elite projection','WA EDGE #1','Father is a former college athlete — family values development','Multi-sport athlete — basketball and football','Washington has been monitoring closely'],
+   offers:['Utah 71% RPM','Oregon — just offered this morning','Washington 4%','Others evaluating'],
+   compIntel:[{school:'Oregon just offered — 6 hours ago',pos:'cp-lead'},{school:'Utah currently leading 71%',pos:'cp-comp'},{school:'Washington monitoring',pos:'cp-comp'}],
+   nil:{ours:'Competitive package — early discussions',theirs:'Oregon will push NIL hard',notes:'Oregon offer changes everything. Call him TODAY before he posts about it and the bidding war starts.'},
+   stats:"Rainier Beach HS Seattle WA. 6'7\" 240 EDGE. WA EDGE #1. Utah 71% RPM on On3. Elite length — projects as elite pass rusher. ALERT: Oregon offered this morning.",
+   hudl:null,xHandle:'@AchillesReyna_',xLatest:'Has not posted about Oregon offer yet — 6 hours ago. Window is closing to call him first.',
+   checklist:[
+     {stage:'Stage 2 — First Contact',items:[{a:'Offer extended',who:'Coach Scalley',date:'Mar 10, 2026',done:true},{a:'Family introductory call',who:'Coach Breckterfield',date:'Mar 15, 2026',done:true},{a:'Followed on X',who:'Coach Breckterfield',date:'Mar 10, 2026',done:true}]},
+     {stage:'Stage 3 — Relationship Building',items:[{a:'Sent first text',who:'Coach Breckterfield',date:'Mar 10, 2026',done:true},{a:'First meaningful phone call',who:'Coach Breckterfield',date:'Apr 26, 2026',done:true},{a:'Official visit scheduled',who:'',date:'',done:false,overdue:true},{a:'Coach visited player at high school',who:'',date:'',done:false}]}
+   ],
+   comms:[
+     {icon:'📞',who:'Coach Breckterfield',note:'Call Apr 26 — asked detailed questions about pass rush techniques and the defensive scheme. Very positive. Said Utah is his "dream school."',time:'Apr 26, 2026'},
+     {icon:'📱',who:'Coach Breckterfield',note:'Text after offer — immediate positive response. Said he was excited.',time:'Mar 10, 2026'}
+   ],
+   note:'URGENT: Oregon offered this morning. Call him before he posts about it. You are leading at 71% but this changes fast.'},
+
+  {id:'graves',pos:'S',coachKey:'swan',tier:'B',status:'priority',gone:false,
+   name:'Braiden Graves',hs:'Bridgeland HS',city:'Cypress, TX',ht:"6'0\"",wt:'190',stars:3,
+   rank:'On3 87 · 247 S #45',rpm:28,
+   photo:null,avBg:'#FEE2E2',avTc:'#DC2626',
+   shortSt:'5 days no contact · Houston visiting him at school TOMORROW',
+   relScore:5,lastMeaningful:'Coach Swan text Apr 28 — "your motor is what we recruit here" — no response yet',
+   family:[
+     {init:'MG',bg:'#DBEAFE',tc:'#1D4ED8',name:'Mike Graves',role:'Father · Played college basketball at Sam Houston State · Houston connection explains RPM',phone:'832-555-0134',msg:"Mr. Graves — Coach Swan here. Braiden is exactly the type of player we build at Utah. Would love to talk today."},
+     {init:'LG',bg:'#FEF3C7',tc:'#92400E',name:'Lisa Graves',role:'Mother · Nurse at Houston Methodist Hospital · Asked about SLC safety on campus visit',phone:'832-555-0133',msg:"Mrs. Graves — Coach Swan here. Salt Lake City is an incredible city. We would love to have Braiden here."}
+   ],
+   personal:['Older brother plays for Houston Texans practice squad — explains Houston leading','Father Mike played college basketball at Sam Houston State','Mother Lisa is a nurse at Houston Methodist','4.44 forty — elite safety speed','Visited Utah campus March 2026 — mother asked about SLC safety'],
+   offers:['Utah offer out','Houston 32% RPM — leading','Kansas 28% RPM'],
+   compIntel:[{school:'Houston coaching staff visiting tomorrow',pos:'cp-lead'},{school:'Kansas 28% and pushing',pos:'cp-comp'},{school:'Utah 28% — need to act',pos:'cp-comp'}],
+   nil:{ours:'Not discussed',theirs:'Houston has NIL advantage — older brother on Texans',notes:'Houston leading because his brother is on the Texans. Utah needs a different angle — development and playing time.'},
+   stats:"Bridgeland HS Cypress TX. Safety. 6'0\" 190. 4.44 forty — elite speed. Houston 32% Kansas 28% Utah 28%. Parents visited campus March 2026. Mother loved Salt Lake City.",
+   hudl:null,xHandle:'@BraidenGraves_S',xLatest:'Posted a Houston Texans highlight of his older brother last night. Family loyalty is real.',
+   checklist:[
+     {stage:'Stage 2 — First Contact',items:[{a:'Offer extended',who:'Coach Scalley',date:'Feb 20, 2026',done:true},{a:'Family introductory call',who:'Coach Swan',date:'Mar 1, 2026',done:true},{a:'Campus visit completed',who:'Recruiting Coordinator',date:'Mar 20, 2026',done:true}]},
+     {stage:'Stage 3 — Relationship Building',items:[{a:'Contact within 5-day window',who:'Coach Swan',date:'',done:false,overdue:true},{a:'Junior day invited',who:'',date:'',done:false},{a:'OV scheduled',who:'',date:'',done:false}]}
+   ],
+   comms:[
+     {icon:'📱',who:'Coach Swan',note:'Texted "your motor is what we recruit here" — no response yet. 5 days.',time:'Apr 28, 2026'},
+     {icon:'📞',who:'Coach Swan',note:'Called after campus visit — family very positive. Mother said Salt Lake City reminded her of home.',time:'Mar 25, 2026'}
+   ],
+   note:'Houston coaches visiting him at school TOMORROW. Call tonight — reference his older brother\'s NFL work ethic that built that career.'},
+
+  {id:'hildebrand',pos:'OT',coachKey:'gross',tier:'A',status:'priority',gone:false,
+   name:'Jake Hildebrand',hs:'Basha HS',city:'Chandler, AZ',ht:"6'5.5\"",wt:'285',stars:4,
+   rank:'On3 92 · 247 OT #8 Natl · AZ OT #2',rpm:null,
+   photo:null,avBg:'#FEF3C7',avTc:'#92400E',
+   shortSt:'★★★★ OT #8 · OV June 15 · Final 4 · ASU visits June 12 first',
+   relScore:7,lastMeaningful:'Home visit Jan 15 — Coach Gross sat with family 3 hours. Mother asked specifically about academic support. Father cried talking about his son\'s future.',
+   family:[
+     {init:'HF',bg:'#DBEAFE',tc:'#1D4ED8',name:'Hildebrand Family',role:'Chandler AZ · Gross home visit Jan 2026 · Father emotional about son\'s future',phone:'480-555-0101',msg:"This is Coach Gross — just thinking about our visit back in January. Your family meant so much to me. Spencer Fano went 9th overall yesterday. That is Jake's path."},
+     {init:'KR',bg:'#F1F5F9',tc:'#475569',name:'Coach Kyle Reed',role:'Basha HS Head Coach · Pre-OV contact recommended this week',phone:'480-555-0102',msg:"Coach Reed — Jordan Gross here. Thank you for everything with Jake. Spencer Fano 9th overall yesterday. Can you reinforce the Utah message before the ASU visit?"}
+   ],
+   personal:['Mother is a high school English teacher — academic support matters to her','Father played D2 football at Azusa Pacific — emotional about son\'s future','Favorite NFL player is Trent Williams — plays for the 49ers, known for elite technique','Told Coach Kyle Reed "Utah is a place where I could actually become great not just play"','Drives a 2019 Ford F-150 — country kid, not flashy'],
+   offers:['Utah — OV June 15-17','Texas A&M — RPM leader','Oregon — finalist','ASU — OV June 12-14'],
+   compIntel:[{school:'Texas A&M leading RPM',pos:'cp-lead'},{school:'ASU visits first June 12',pos:'cp-comp'},{school:'Oregon finalist',pos:'cp-comp'},{school:'Utah OV June 15',pos:'cp-comp'}],
+   nil:{ours:'Competitive package discussed',theirs:'Texas A&M highest — NIL is a factor',notes:'Spencer Fano 9th overall yesterday is the pitch. Caleb Lomu 2nd round. Jordan Gross has now developed back-to-back first-round NFL OL. That beats NIL money.'},
+   stats:"247 OT #8 nationally. 6'5.5\" 285. Elite OT frame. Jordan Gross home visit January 2026. ASU visits June 12-14 before Utah OV June 15. Final 4: Utah, Texas A&M, Oregon, ASU.",
+   hudl:null,xHandle:'@JakeHildebrand_OT',xLatest:'Liked 3 ASU posts this morning. Also liked Spencer Fano NFL Draft announcement. Monitoring closely.',
+   checklist:[
+     {stage:'Stage 3 — Relationship Building',items:[{a:'Home visit completed',who:'Coach Gross',date:'Jan 15, 2026',done:true},{a:'Family maintained contact',who:'Coach Gross',date:'Apr 28, 2026',done:true}]},
+     {stage:'Stage 4 — Offer',items:[{a:'OV scheduled June 15-17',who:'Recruiting Coordinator',date:'June 15, 2026',done:true},{a:'Pre-OV call this week — Fano pitch',who:'Coach Gross',date:'',done:false,overdue:true},{a:'Call Coach Reed before OV',who:'Coach Gross',date:'',done:false,overdue:true}]},
+     {stage:'Stage 5 — Decision',items:[{a:'Official visit completed',who:'',date:'',done:false},{a:'Verbal commitment',who:'',date:'',done:false}]}
+   ],
+   comms:[
+     {icon:'📞',who:'Coach Gross',note:'Called — OV confirmed June 15. He asked about Spencer Fano and Caleb Lomu specifically. He knows the development story.',time:'Apr 28, 2026'},
+     {icon:'🏠',who:'Coach Gross',note:'Home visit Chandler AZ — 3 hours with family. Father got emotional talking about son\'s future. Mother asked about academic tutoring.',time:'Jan 15, 2026'}
+   ],
+   note:'Spencer Fano 9th overall yesterday. This is your pitch — call today. ASU visits June 12 first. Call Coach Reed this week.'},
+
+  {id:'joshua',pos:'OT',coachKey:'gross',tier:'A',status:'priority',gone:false,
+   name:'Mason Joshua',hs:'Forney HS',city:'Forney, TX',ht:"6'5\"",wt:'270',stars:3,
+   rank:'On3 IOL #38 · 247 OT #43',rpm:null,
+   photo:null,avBg:'#FEF3C7',avTc:'#92400E',
+   shortSt:'★★★ OT/IOL · OV June 5 · Decides July 4 · Arizona visits May 29',
+   relScore:7,lastMeaningful:"Tweeted 'Where is HOME' tagging Coach Gross on Apr 15 — 2,400 impressions — strong public signal",
+   family:[
+     {init:'JF',bg:'#FEF3C7',tc:'#92400E',name:'Joshua Family',role:'Forney TX · Father played college ball · Very involved in decision',phone:'972-555-0133',msg:"Coach Gross here — Spencer Fano went 9th overall yesterday. That is the Utah OL development story. Mason is next if he comes to Salt Lake City."},
+     {init:'DB',bg:'#F1F5F9',tc:'#475569',name:'Coach Dan Broten',role:'Forney HS HC · Logan UT connection — call him this week',phone:'972-555-0134',msg:"Coach Broten — Jordan Gross. Thank you for everything. Spencer Fano 9th overall yesterday. Can you reinforce the Utah message before Mason goes to Arizona?"}
+   ],
+   personal:['Navy All-American Bowl selection','Versatility at OT and Center','Track and field — elite athlete','Father played college ball — very involved','Arizona visits May 29-31 before Utah OV June 5'],
+   offers:['Utah — OV June 5-7','Arizona — OV May 29-31','Florida State','Baylor','Duke','Oklahoma State','Pitt','Arizona State'],
+   compIntel:[{school:'Arizona OV May 29 first',pos:'cp-lead'},{school:'Florida State pushing NIL',pos:'cp-comp'},{school:'Utah OV June 5',pos:'cp-comp'}],
+   nil:{ours:'Competitive — discussed',theirs:'Florida State and Arizona pushing hard',notes:"Spencer Fano 9th overall is the counter. Father played college ball — he understands development matters more than NIL."},
+   stats:"247 OT #43. 6'5\" 270. Navy All-American Bowl. Tweeted 'Where is HOME' tagging Coach Gross. Arizona visits May 29-31. Utah OV June 5-7. Decides July 4.",
+   hudl:null,xHandle:'@MasonJoshua_OL',xLatest:"Tweeted 'Where is HOME' tagging Coach Gross and Utah Football — 2,400 impressions — Apr 15. Has not posted since.",
+   checklist:[
+     {stage:'Stage 4 — Offer',items:[{a:'OV scheduled June 5-7',who:'Recruiting Coordinator',date:'June 5, 2026',done:true},{a:'Pre-OV contact before Arizona visits',who:'Coach Gross',date:'',done:false,overdue:true}]},
+     {stage:'Stage 5 — Decision',items:[{a:'OV completed',who:'',date:'',done:false},{a:'Verbal commitment by July 4',who:'',date:'',done:false}]}
+   ],
+   comms:[
+     {icon:'🐦',who:'Mason Joshua',note:"Tweeted 'Where is HOME' tagging Coach Gross and Utah Football — 2,400 impressions",time:'Apr 15, 2026'},
+     {icon:'📞',who:'Coach Gross',note:'Called after tweet — very positive, excited for OV. Mentioned Spencer Fano unprompted.',time:'Apr 16, 2026'}
+   ],
+   note:'Arizona visits May 29 first. Call before end of week — Fano 9th overall is the close.'},
+
+  {id:'anyasodo',pos:'IOL',coachKey:'gross',tier:'A',status:'offered',gone:false,
+   name:'Damian Anyasodo',hs:"St. Mary's HS",city:'Stockton, CA',ht:"6'4\"",wt:'285',stars:3,
+   rank:'On3 82 · Utah 51% RPM',rpm:51,
+   photo:null,avBg:'#DBEAFE',avTc:'#1D4ED8',
+   shortSt:'Utah 51% RPM — leading · WSU 43% competing',
+   relScore:5,lastMeaningful:"Coach Gross call Apr 20 — said Utah's NFL development track record was 'the most impressive thing he'd heard'",
+   family:[{init:'AF',bg:'#F1F5F9',tc:'#475569',name:'Anyasodo Family',role:'Stockton CA · Connection warm',phone:'209-555-0177',msg:"Coach Gross here — Spencer Fano went 9th overall yesterday. That is the Utah OL development story. Damian is next."}],
+   personal:['Utah leading 51% RPM','WSU competing at 43%','Spencer Fano pitch is perfect for this recruitment'],
+   offers:['Utah 51%','Washington State 43%'],
+   compIntel:[{school:'Utah leading 51%',pos:'cp-lead'},{school:'WSU competing 43%',pos:'cp-comp'}],
+   nil:{ours:'Discussed',theirs:'WSU comparable',notes:'Utah leading. Fano 9th overall — text him today.'},
+   stats:"St. Mary's HS Stockton CA. 6'4\" 285 IOL. On3 82. Utah 51% RPM. WSU 43%. Washington State visited HS last week — respond now.",
+   hudl:null,xHandle:'@DamianAnyasodo',xLatest:'Liked Spencer Fano NFL Draft post this morning — this is the moment to call.',
+   checklist:[{stage:'Stage 3 — Relationship Building',items:[{a:'Offer extended',who:'Coach Scalley',date:'Mar 15, 2026',done:true},{a:'Family call',who:'Coach Gross',date:'Mar 20, 2026',done:true},{a:'OV scheduled',who:'',date:'',done:false,overdue:true}]}],
+   comms:[{icon:'📞',who:'Coach Gross',note:"Call Apr 20 — said Utah's NFL development track record was 'the most impressive thing I've heard.' He liked the Fano story.",time:'Apr 20, 2026'}],
+   note:'He liked the Fano draft post this morning. Text him TODAY with the news. OV is the next step.'},
+
+  {id:'aloisio',pos:'IOL',coachKey:'gross',tier:'A',status:'offered',gone:false,
+   name:'Ian Aloisio',hs:'Timpview HS',city:'Provo, UT',ht:"6'4\"",wt:'270',stars:3,
+   rank:'On3 88 · 247 UT IOL #3 · Utah 42%',rpm:42,
+   photo:null,avBg:'#DCFCE7',avTc:'#15803D',
+   shortSt:'In-state IOL · Utah 42% · Provo to SLC 45 min',
+   relScore:6,lastMeaningful:"Coach Gross call Mar 10 — parents are huge Utah fans. Dad said 'we want him at Utah'",
+   family:[{init:'AF2',bg:'#DCFCE7',tc:'#15803D',name:'Aloisio Family',role:'Provo UT · In-state · Utah fans in BYU territory · Dad said "we want him at Utah"',phone:'801-555-0122',msg:"Coach Gross here — Spencer Fano went 9th overall yesterday. Ian is going to be next in that tradition. Provo to the NFL through Salt Lake City."}],
+   personal:['In-state — Provo to SLC 45 minutes','On3 88 rating','Arizona competing at 37%','Parents are Utah fans in BYU territory','Polynesian Bowl performance generated buzz'],
+   offers:['Utah 42%','Arizona 37%','BYU — inactive'],
+   compIntel:[{school:'Utah leading 42%',pos:'cp-lead'},{school:'Arizona competing 37%',pos:'cp-comp'},{school:'BYU — not pushing hard',pos:'cp-trail'}],
+   nil:{ours:'Not discussed',theirs:'Arizona comparable',notes:'In-state advantage is strong. Family wants Utah. Schedule OV now.'},
+   stats:'Timpview HS Provo UT. 6\'4\" 270 IOL. On3 88. Utah 42% Arizona 37%. Parents are Utah fans. Provo to SLC 45 minutes.',
+   hudl:null,xHandle:'@IanAloisio_OL',xLatest:'Liked Utah Football spring practice content. Positive engagement signal.',
+   checklist:[{stage:'Stage 3 — Relationship Building',items:[{a:'Offer extended',who:'Coach Scalley',date:'Mar 1, 2026',done:true},{a:'Family call',who:'Coach Gross',date:'Mar 10, 2026',done:true},{a:'OV scheduled',who:'',date:'',done:false}]}],
+   comms:[{icon:'📞',who:'Coach Gross',note:"Call Mar 10 — Dad said 'we want Ian at Utah.' BYU has not been aggressive. This is very winnable.",time:'Mar 10, 2026'}],
+   note:'In-state. Family wants Utah. Schedule the OV — this is closeable this week.'},
+
+  {id:'mailei',pos:'RB',coachKey:'swan',tier:'A',status:'offered',gone:false,
+   name:'Jonah Mailei',hs:'Skyline HS',city:'Salt Lake City, UT',ht:"6'0\"",wt:'210',stars:0,
+   rank:'Utah 92% RPM',rpm:92,
+   photo:null,avBg:'#DCFCE7',avTc:'#15803D',
+   shortSt:'Utah 92% RPM — nearly committed · In-state · 10 min from Rice-Eccles',
+   relScore:7,lastMeaningful:"Coach Atuaia home visit Apr 1 — mother said 'this feels like home.' Campus visit exceeded all expectations.",
+   family:[{init:'MF',bg:'#DCFCE7',tc:'#15803D',name:'Mailei Family',role:"Salt Lake City UT · Mother said 'this feels like home' on campus visit · Very close to committing",phone:'801-555-0199',msg:"Coach Atuaia here — we would love to have Jonah as part of the Utah family. Can we schedule his official visit?"}],
+   personal:['In-state — SLC · 10 min from Rice-Eccles','92% RPM = near commit','Boise State 3% only other school','Mother specifically said "this feels like home" on campus visit'],
+   offers:['Utah 92%','Boise State 3%'],
+   compIntel:[{school:'Utah leading 92%',pos:'cp-lead'},{school:'Boise State minimal 3%',pos:'cp-trail'}],
+   nil:{ours:'Not discussed',theirs:'N/A',notes:'At 92% this is about scheduling the OV and closing.'},
+   stats:'Skyline HS Salt Lake City UT. In-state RB. Utah 92% RPM. 10 minutes from Rice-Eccles Stadium.',
+   hudl:null,xHandle:'@JonahMailei_RB',xLatest:'Posted Rice-Eccles Stadium photo from campus visit. Major positive signal.',
+   checklist:[{stage:'Stage 3 — Relationship Building',items:[{a:'Campus visit completed',who:'Recruiting Coordinator',date:'Apr 1, 2026',done:true},{a:'OV scheduled',who:'',date:'',done:false,overdue:true}]}],
+   comms:[{icon:'🏟',who:'Recruiting Coordinator',note:"Campus visit April 1 — mother said 'this feels like home.' Jonah lingered in the weight room for 45 minutes asking questions about the S&C program.",time:'Apr 1, 2026'}],
+   note:'92% RPM. Mother loves Utah. Schedule OV today — one call closes this.'},
+
+  {id:'sykes',pos:'WR',coachKey:'bumphis',tier:'A',status:'offered',gone:false,
+   name:'Dillon Sykes',hs:'Rancho Cucamonga HS',city:'Rancho Cucamonga, CA',ht:"6'5\"",wt:'195',stars:3,
+   rank:'On3 83 · Utah 94% RPM',rpm:94,
+   photo:null,avBg:'#DBEAFE',avTc:'#1D4ED8',
+   shortSt:'Utah 94% RPM — nearly committed · Tweeted "Almost time to decide"',
+   relScore:6,lastMeaningful:"Coach Bumphis call Apr 22 — wants pro-style offense. Said Spencer Fano's success story resonates with him.",
+   family:[{init:'SF3',bg:'#F1F5F9',tc:'#475569',name:'Sykes Family',role:'Rancho Cucamonga CA · Father played D3 football · Very engaged',phone:'909-555-0166',msg:"Coach Bumphis here — Dillon is exactly what we look for. Spencer Fano just went 9th overall from Utah. That path is real."}],
+   personal:['Utah 94% RPM = nearly committed','6\'5\" WR elite size — pro projection','Tweeted "Almost time to make a decision" this morning','Wants pro-style offense — mentioned it 3 times','Purdue 4% only other school'],
+   offers:['Utah 94%','Purdue 4%'],
+   compIntel:[{school:'Utah leading 94%',pos:'cp-lead'},{school:'Purdue minimal 4%',pos:'cp-trail'}],
+   nil:{ours:'Not discussed',theirs:'N/A',notes:'At 94% this is about the OV and closing. One call.'},
+   stats:"Rancho Cucamonga HS CA. 6'5\" 195 WR. On3 83. Utah 94% RPM. Tweeted 'Almost time to make a decision' this morning.",
+   hudl:null,xHandle:'@DillonSykes_WR',xLatest:"Tweeted 'Almost time to make a decision' this morning. 94% Utah RPM. Call him TODAY.",
+   checklist:[{stage:'Stage 3 — Relationship Building',items:[{a:'Family call',who:'Coach Bumphis',date:'Apr 22, 2026',done:true},{a:'OV scheduled',who:'',date:'',done:false,overdue:true}]}],
+   comms:[{icon:'📞',who:'Coach Bumphis',note:"Call Apr 22 — said Utah's pro-style offense is what he wants. Spencer Fano story resonated strongly. Said 'I think Utah is the place.'",time:'Apr 22, 2026'}],
+   note:"Tweeted 'Almost time to decide' this morning. 94% RPM. Call today — OV closes this."},
+
+  {id:'reyna_check',pos:'EDGE',coachKey:'breck',tier:'A',status:'offered',gone:false,
+   name:'Cameron Saunders',hs:'Valley Christian HS',city:'San Jose, CA',ht:"6'5\"",wt:'240',stars:3,
+   rank:'On3 82 · Utah 47% RPM',rpm:47,
+   photo:null,avBg:'#DBEAFE',avTc:'#1D4ED8',
+   shortSt:'Utah 47% RPM — leading · Valley Christian HS · San Jose CA',
+   relScore:4,lastMeaningful:'Coach Breckterfield call Apr 10 — said he loves the pass rush development program at Utah',
+   family:[{init:'SF4',bg:'#F1F5F9',tc:'#475569',name:'Saunders Family',role:'San Jose CA · Father is a pastor · Faith is important to the family',phone:'408-555-0177',msg:"Coach Breckterfield here — we value the whole person here at Utah. Academics, faith, and football. We would love to have Cameron."}],
+   personal:['Utah 47% RPM — leading','Father is a pastor — faith is important','ASU 41% competing closely'],
+   offers:['Utah 47%','Arizona State 41%','Others evaluating'],
+   compIntel:[{school:'Utah leading 47%',pos:'cp-lead'},{school:'Arizona State 41% close',pos:'cp-comp'}],
+   nil:{ours:'Not discussed',theirs:'ASU comparable',notes:'Faith angle is important. Father is a pastor. Emphasize Utah values and culture.'},
+   stats:"Valley Christian HS San Jose CA. 6'5\" 240 EDGE. On3 82. Utah 47% RPM. ASU 41%.",
+   hudl:null,xHandle:'@CameronSaunders_',xLatest:'Liked Utah Football and ASU content equally this week. Very undecided.',
+   checklist:[{stage:'Stage 3 — Relationship Building',items:[{a:'Offer extended',who:'Coach Scalley',date:'Mar 20, 2026',done:true},{a:'Family call',who:'Coach Breckterfield',date:'Apr 10, 2026',done:true},{a:'OV scheduled',who:'',date:'',done:false}]}],
+   comms:[{icon:'📞',who:'Coach Breckterfield',note:'Call Apr 10 — said he loves the pass rush development program. Father participated in the call — family values alignment.',time:'Apr 10, 2026'}],
+   note:'Faith is important to this family. Emphasize Utah values and culture — not just football.'},
+
+  // ── WATCH LIST / VISITS ────────────────────────────────────
+  {id:'moseley',pos:'WR',coachKey:'bumphis',tier:'B',status:'offered',gone:false,
+   name:'Darion Moseley',hs:'Thompson HS',city:'Alabaster, AL',ht:"6'0\"",wt:'170',stars:3,
+   rank:'On3 84 · 247 WR #87',rpm:35,
+   photo:null,avBg:'#DBEAFE',avTc:'#1D4ED8',
+   shortSt:'★★★ WR · OV June 12-14 · 1,128 receiving yards 2025',
+   relScore:5,lastMeaningful:'Coach Bumphis call Apr 20 — very positive, excited about the OV',
+   family:[{init:'MF2',bg:'#F1F5F9',tc:'#475569',name:'Moseley Family',role:'Alabaster AL · Family has not visited Utah before · First time in SLC',phone:'205-555-0144',msg:"Coach Bumphis here — we can't wait to show your family Salt Lake City. It's going to be a special visit June 12-14."}],
+   personal:['1,128 receiving yards 7 TDs 2025 — state champion','OV June 12-14 scheduled — first time visiting Utah','Alabama program in the mix','Family has never been to SLC'],
+   offers:['Utah — OV June 12-14','Alabama watching','Tennessee watching'],
+   compIntel:[{school:'Alabama monitoring',pos:'cp-lead'},{school:'Tennessee watching',pos:'cp-comp'},{school:'Utah OV June 12',pos:'cp-comp'}],
+   nil:{ours:'Not discussed',theirs:'Alabama will push NIL hard',notes:'Alabama has not offered yet. If they do before the OV, urgency increases dramatically.'},
+   stats:'Thompson HS Alabaster AL. 6\'0\" 170 WR. 1,128 rec yds 7 TDs 2025. State champion. OV June 12-14.',
+   hudl:null,xHandle:'@DarionMoseley_',xLatest:'Posted about the upcoming Utah OV — excited.',
+   checklist:[{stage:'Stage 4 — Offer',items:[{a:'Offer extended',who:'Coach Scalley',date:'Apr 1, 2026',done:true},{a:'OV scheduled June 12-14',who:'Recruiting Coordinator',date:'June 12, 2026',done:true},{a:'Travel arrangements confirmed',who:'',date:'',done:false}]}],
+   comms:[{icon:'📞',who:'Coach Bumphis',note:'Call Apr 20 — very positive, excited about the OV. Has never been to Utah.',time:'Apr 20, 2026'}],
+   note:'OV June 12-14. First time in SLC — make it special. Alabama watching — close before they offer.'},
+
+  {id:'bruce',pos:'CB',coachKey:'swan',tier:'B',status:'offered',gone:false,
+   name:'Dylin Bruce',hs:'Huntington Beach HS',city:'Huntington Beach, CA',ht:"5'11\"",wt:'175',stars:3,
+   rank:'On3 83 · 247 CB #58',rpm:30,
+   photo:null,avBg:'#DBEAFE',avTc:'#1D4ED8',
+   shortSt:'★★★ CB · OV June 19-21 · Huntington Beach CA',
+   relScore:4,lastMeaningful:'Coach Shah call Apr 15 — interested but has many options',
+   family:[{init:'BF2',bg:'#F1F5F9',tc:'#475569',name:'Bruce Family',role:'Huntington Beach CA · Beach town kid — SLC will be different',phone:'714-555-0166',msg:"Coach Shah here — Utah has produced NFL corners. Jaylon Johnson, Cole Bishop — that is the path for Dylin."}],
+   personal:['Huntington Beach — beach culture kid','OV June 19-21 scheduled','Multiple P5 offers'],
+   offers:['Utah — OV June 19-21','UCLA watching','Washington watching'],
+   compIntel:[{school:'UCLA monitoring',pos:'cp-lead'},{school:'Washington watching',pos:'cp-comp'},{school:'Utah OV June 19',pos:'cp-comp'}],
+   nil:{ours:'Not discussed',theirs:'UCLA will push',notes:'Jaylon Johnson and Cole Bishop NFL careers are the pitch.'},
+   stats:"Huntington Beach HS CA. 5'11\" 175 CB. On3 83. 247 CB #58. OV June 19-21.",
+   hudl:null,xHandle:'@DylinBruce_CB',xLatest:'Posted about upcoming college visits. Utah is on his list.',
+   checklist:[{stage:'Stage 4 — Offer',items:[{a:'OV scheduled June 19-21',who:'Recruiting Coordinator',date:'June 19, 2026',done:true},{a:'Travel confirmed',who:'',date:'',done:false}]}],
+   comms:[{icon:'📞',who:'Coach Shah',note:'Call Apr 15 — interested but evaluating multiple options. Wants to see SLC before deciding.',time:'Apr 15, 2026'}],
+   note:'OV June 19-21. Jaylon Johnson and Cole Bishop NFL pitch is the close.'},
+
+  {id:'ioane',pos:'EDGE',coachKey:'breck',tier:'B',status:'offered',gone:false,
+   name:'Jag Ioane',hs:'Orem HS',city:'Orem, UT',ht:"6'3\"",wt:'190',stars:3,
+   rank:'On3 84 · 247 EDGE #56 · UT EDGE #2',rpm:24,
+   photo:null,avBg:'#DBEAFE',avTc:'#1D4ED8',
+   shortSt:'In-state EDGE · OV June 19-21 · BYU 28% Utah 24%',
+   relScore:5,lastMeaningful:'Coach Swan met with him in January — Washington making a home visit yesterday per X',
+   family:[{init:'IF',bg:'#F1F5F9',tc:'#475569',name:'Ioane Family',role:'Orem UT · Polynesian family · Faith is important · BYU is a real factor',phone:'801-555-0155',msg:"Coach Breckterfield here — Jag is the kind of player Utah was built on. In-state, physical, and hungry. We need him here."}],
+   personal:['In-state — Orem to SLC 45 min','BYU at 28% — real factor for Polynesian family','Washington made home visit yesterday','OV June 19-21 scheduled'],
+   offers:['Utah OV June 19-21','BYU 28% RPM leading','Washington — home visit yesterday'],
+   compIntel:[{school:'BYU leading 28%',pos:'cp-lead'},{school:'Washington home visit yesterday',pos:'cp-comp'},{school:'Utah 24% — needs boost',pos:'cp-comp'}],
+   nil:{ours:'Discussed',theirs:'BYU has in-state advantage',notes:'Washington visiting yesterday is a concern. Coach Scalley personal call would be significant here.'},
+   stats:"Orem HS UT. 6'3\" 190 EDGE. Utah #2 EDGE. BYU 28% Utah 24%. Washington made home visit yesterday. OV June 19-21.",
+   hudl:null,xHandle:'@JagIoane_',xLatest:'Posted about Washington home visit — "great meeting." BYU and Utah still in it.',
+   checklist:[{stage:'Stage 4 — Offer',items:[{a:'OV scheduled June 19-21',who:'Recruiting Coordinator',date:'June 19, 2026',done:true},{a:'Coach Scalley personal call',who:'',date:'',done:false,overdue:true}]}],
+   comms:[{icon:'🏠',who:'Washington LB Coach',note:'Washington made a home visit to Ioane yesterday. He posted about it positively.',time:'May 3, 2026'}],
+   note:'Washington visiting is a red flag. Scalley needs to call him personally this week.'},
+
+  // ── SIGNED ELSEWHERE / LOST ────────────────────────────────
+  {id:'ngata',pos:'ATH',coachKey:'swan',tier:'C',status:'gone',gone:true,
+   name:'Sam Ngata',hs:'Olympus HS',city:'Salt Lake City, UT',ht:"6'3\"",wt:'215',stars:3,
+   rank:'On3 86 · Son of NFL All-Pro Haloti Ngata',rpm:0,
+   goneSchool:'Oregon',
+   photo:null,avBg:'#F1F5F9',avTc:'#94A3B8',
+   shortSt:'Signed with Oregon — January 24, 2026',
+   relScore:1,lastMeaningful:'N/A — committed to Oregon',
+   family:[],personal:['Son of NFL All-Pro Haloti Ngata — chose his father\'s alma mater','In-state loss — Oregon won with legacy angle','Lesson learned: family legacy is a powerful recruiting factor'],
+   offers:['Oregon ✓','Utah offered'],compIntel:[],nil:{ours:'N/A',theirs:'N/A',notes:'Oregon won with his father\'s legacy angle. Utah could not compete with that narrative.'},
+   stats:'247 ATH #20. Committed Oregon January 24, 2026. Son of NFL All-Pro Haloti Ngata — chose his father\'s alma mater. In-state loss.',
+   hudl:null,xHandle:null,xLatest:null,
+   checklist:[],comms:[],
+   note:'Chose Oregon — father Haloti Ngata played there. Lesson: family legacy is the strongest recruiting factor.'},
+
+  {id:'thatcher',pos:'QB',coachKey:'swan',tier:'C',status:'lost',gone:false,
+   name:'Thaddeus Thatcher',hs:'Arbor View HS',city:'Las Vegas, NV',ht:"6'2\"",wt:'178',stars:3,
+   rank:'On3 86 · Michigan 100% RPM',rpm:0,
+   photo:null,avBg:'#F1F5F9',avTc:'#94A3B8',
+   shortSt:'Decommitted from Utah January 2026 · Michigan 100% RPM',
+   relScore:1,lastMeaningful:'N/A — decommitted',
+   family:[],personal:['Younger brother of former Utah LB Christian Thatcher','Decommitted January 2026 during staff changes','Michigan moved immediately during transition'],
+   offers:['Michigan 100%','Utah (decommitted)'],compIntel:[{school:'Michigan 100% — gone',pos:'cp-lead'}],
+   nil:{ours:'N/A',theirs:'Michigan',notes:'Staff changes drove the decommit. Critical lesson: committed players need daily contact during coaching transitions.'},
+   stats:'247 QB #41. Decommitted Utah January 2026 during staff overhaul. Michigan moved immediately. Younger brother of former Utah LB Christian Thatcher.',
+   hudl:null,xHandle:null,xLatest:null,
+   checklist:[],comms:[],
+   note:'Decommitted during staff transition. Lesson: coach changes = immediate re-recruitment required for every commit.'}
+];
+
+// ══ ALERTS DATA ══════════════════════════════════════════════
+const ALL_ALERTS=[
+  {id:'a1',coachKey:'breck',type:'urgent',
+   tag:'at-r',tagTxt:'URGENT — COMPETITION',
+   name:'Oregon just offered Achilles Reyna — 6 hours ago',
+   desc:'You are currently leading at 71% RPM but Oregon\'s offer changes everything. Reyna has NOT posted about it yet — you have a window to call him before this becomes a bidding war. Last meaningful contact: Apr 26.',
+   time:'Today, 8:23am · On3 · X',
+   recruitId:'reyna',
+   actions:[
+     {txt:'Call Achilles Now',cls:'ab-call-g',fn:`openPreCall('reyna')`},
+     {txt:'Text Him',cls:'ab-text-b',fn:`openPreText('reyna')`}
+   ]},
+  {id:'a2',coachKey:'breck',type:'good',
+   tag:'at-g',tagTxt:'OV CONFIRMED',
+   name:'Jack Henderson confirmed Official Visit June 5-7',
+   desc:'Dan Henderson texted this morning. Jack, Barbara, Dan, and younger brother Tyler are all coming. Jack wants to see the weight room and meet the current DEs. Retention tip: Call Dan today and tell him to bring Tyler.',
+   time:'Today, 8:47am · Dan Henderson text',
+   recruitId:'henderson',
+   actions:[
+     {txt:'Call Dan Henderson',cls:'ab-call-g',fn:`openFamilyContact('henderson',0)`},
+     {txt:'Text Dan',cls:'ab-text-b',fn:`openFamilyText('henderson',0)`}
+   ]},
+  {id:'a3',coachKey:'breck',type:'urgent',
+   tag:'at-r',tagTxt:'BIRTHDAY TOMORROW',
+   name:'Barbara Henderson birthday tomorrow — May 3',
+   desc:'Jack Henderson\'s mother. She baked cookies for the Bishop Kelly staff before every game. A 30-second birthday text from you builds the family relationship through signing day. It will mean a lot to her.',
+   time:'Tomorrow · May 3',
+   recruitId:'henderson',
+   actions:[
+     {txt:'Text Barbara — 208-890-5948',cls:'ab-text-b',fn:`textBarbara()`},
+     {txt:'Call Barbara',cls:'ab-call-g',fn:`openFamilyContact('henderson',1)`}
+   ]},
+  {id:'a4',coachKey:'swan',type:'urgent',
+   tag:'at-r',tagTxt:'COMPETITION VISIT',
+   name:'Houston coaches visiting Braiden Graves at Bridgeland HS TOMORROW',
+   desc:"Houston is at 32% RPM — currently leading. You are at 28% and haven't contacted Graves in 5 days. His older brother plays for the Texans practice squad — that is why Houston is leading. Call him tonight before the Houston visit.",
+   time:'Today · Houston visit tomorrow May 4',
+   recruitId:'graves',
+   actions:[
+     {txt:'Call Braiden Tonight',cls:'ab-call-g',fn:`openPreCall('graves')`},
+     {txt:'Text Him Now',cls:'ab-text-b',fn:`openPreText('graves')`}
+   ]},
+  {id:'a5',coachKey:'gross',type:'urgent',
+   tag:'at-r',tagTxt:'CLOSE NOW',
+   name:"Dillon Sykes tweeted 'Almost time to make a decision' — 94% RPM",
+   desc:'94% RPM and he just told the world he is about to decide. No OV scheduled. One phone call to schedule the OV closes this recruitment. Call him today.',
+   time:'Today, 9:15am · X',
+   recruitId:'sykes',
+   actions:[
+     {txt:'Call Dillon Now',cls:'ab-call-g',fn:`openPreCall('sykes')`},
+     {txt:'Text Him',cls:'ab-text-b',fn:`openPreText('sykes')`}
+   ]},
+  {id:'a6',coachKey:'gross',type:'urgent',
+   tag:'at-r',tagTxt:'USE THIS TODAY',
+   name:'Spencer Fano selected 9th overall — 2026 NFL Draft',
+   desc:'Highest drafted Utah OL in program history. Utah has now developed back-to-back first-round NFL offensive linemen (Fano and Lomu). Text every OL target today with this news. This is your close for Hildebrand, Joshua, Anyasodo, and Aloisio.',
+   time:'Yesterday · 2026 NFL Draft',
+   recruitId:'hildebrand',
+   actions:[
+     {txt:'Text All OL Targets',cls:'ab-text-b',fn:`textAllOL()`},
+     {txt:'Call Hildebrand',cls:'ab-call-g',fn:`openPreCall('hildebrand')`}
+   ]},
+  {id:'a7',coachKey:'gross',type:'watch',
+   tag:'at-a',tagTxt:'ACT THIS WEEK',
+   name:'Jake Hildebrand — no contact 8 days · ASU visits June 12',
+   desc:'Your OV is June 15. ASU visits first on June 12. Hildebrand liked 3 ASU posts this morning. His father cried during the home visit talking about his son\'s future — call him today with the Fano news. Reference it specifically.',
+   time:'Today · X signal',
+   recruitId:'hildebrand',
+   actions:[
+     {txt:'Call Hildebrand',cls:'ab-call-g',fn:`openPreCall('hildebrand')`},
+     {txt:'Call Coach Reed',cls:'ab-text-b',fn:`openFamilyContact('hildebrand',1)`}
+   ]},
+  {id:'a8',coachKey:'swan',type:'urgent',
+   tag:'at-r',tagTxt:'CLOSE NOW',
+   name:'Jonah Mailei — 92% RPM · In-state · No OV scheduled',
+   desc:'Plays 10 minutes from Rice-Eccles. Mother said "this feels like home" on the campus visit. Boise State is the only other school at 3%. One phone call to schedule the OV closes this. There is no reason this should not be done today.',
+   time:'Today',
+   recruitId:'mailei',
+   actions:[
+     {txt:'Call Jonah Now',cls:'ab-call-g',fn:`openPreCall('mailei')`},
+     {txt:'Schedule OV',cls:'ab-text-b',fn:`openPreText('mailei')`}
+   ]},
+  {id:'a9',coachKey:null,type:'watch',
+   tag:'at-a',tagTxt:'COMPLIANCE',
+   name:'Dead period starts June 1 — 30 days away',
+   desc:'From June 1 through June 14 there is zero in-person contact with recruits or families. All official visits and on-campus meetings must be scheduled before June 1. Hildebrand OV starts June 15 — same day contact opens.',
+   time:'Compliance reminder · June 1 deadline',
+   recruitId:null,
+   actions:[
+     {txt:'View Visit Calendar',cls:'ab-call-g',fn:`swTab('warroom')`}
+   ]}
+];
+
+// ══ STATE ═════════════════════════════════════════════════════
+let coach='scalley',tab='today',pos='all',yr='2027',selId=null;
+let toastT=null,undoFn=null,undoT=null;
+let reachTarget='',contactTarget={name:'',phone:'',msg:''};
+let precallTarget={name:'',pos:'',phone:'',note:''},pretextTarget={name:'',phone:'',msg:''};
+let xTarget={name:'',handle:'',latest:''};
+let dismissedAlerts=new Set();
+
+// ══ HELPERS ══════════════════════════════════════════════════
+function ini(n){return n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
+function stars(n){return n>0?'★'.repeat(n):''}
+function rc(s){return s>=7?'#16A34A':s>=4?'#F59E0B':'#DC2626'}
+
+function toast(m,undoCb=null){
+  const el=document.getElementById('toast');
+  if(!el)return;
+  el.innerHTML=m+(undoCb?` <button class="toast-undo" onclick="doUndo()">Undo</button>`:'');
+  el.classList.add('show');
+  undoFn=undoCb||null;
+  if(toastT)clearTimeout(toastT);
+  toastT=setTimeout(()=>{el.classList.remove('show');undoFn=null;},3000);
+}
+function doUndo(){
+  if(undoFn){undoFn();document.getElementById('toast').classList.remove('show');}
+}
+
+// ══ OVERLAY SYSTEM ═══════════════════════════════════════════
+function openOverlay(id){document.getElementById(id)?.classList.add('open')}
+function closeOverlay(id){document.getElementById(id)?.classList.remove('open')}
+function closeOverlayBg(e,id){if(e.target===document.getElementById(id))closeOverlay(id)}
+
+// ══ COACH ═════════════════════════════════════════════════════
+function applyCoach(c){
+  coach=c;
+  localStorage.setItem('rz_coach',c);
+  const cc=COACHES[c];
+  document.getElementById('coach-label').textContent=cc?.name||'Coach Scalley';
+  // Default pos to coach's primary position
+  if(c!=='scalley'&&cc?.positions?.length){
+    pos=cc.positions[0];
+  } else {
+    pos='all';
+  }
+  renderBoard();renderToday();renderRecNews();renderAlerts();
+}
+function toggleCoachDrop(){document.getElementById('coach-drop').classList.toggle('open')}
+function selCoach(c,el){
+  document.querySelectorAll('.cd-item').forEach(x=>x.classList.remove('on'));
+  el?.classList.add('on');
+  document.getElementById('coach-drop').classList.remove('open');
+  applyCoach(c);
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.coach-wrap'))
+    document.getElementById('coach-drop')?.classList.remove('open');
+});
+
+// ══ ALERTS ════════════════════════════════════════════════════
+function getCoachAlerts(){
+  return ALL_ALERTS.filter(a=>!dismissedAlerts.has(a.id)&&(a.coachKey===null||a.coachKey===coach||coach==='scalley'));
+}
+function renderAlerts(){
+  const alerts=getCoachAlerts();
+  document.getElementById('bell-count').textContent=alerts.length;
+  document.getElementById('alerts-title').textContent=`${alerts.length} Alert${alerts.length!==1?'s':''} — Your Board`;
+  const h=alerts.map(a=>`<div class="alert-item alert-${a.type}" id="alert-${a.id}">
+    <div><span class="alert-tag ${a.tag}">${a.tagTxt}</span></div>
+    <div class="alert-name">${a.name}</div>
+    <div class="alert-desc">${a.desc}</div>
+    <div class="alert-time">${a.time}</div>
+    <div class="alert-btns">
+      ${a.actions.map(b=>`<button class="alert-btn ${b.cls}" onclick="${b.fn};closeOverlay('alerts-overlay')">${b.txt}</button>`).join('')}
+      ${a.recruitId?`<button class="alert-btn" style="background:var(--bg2);color:var(--t2);border:1px solid var(--border)" onclick="selRecruit('${a.recruitId}');closeOverlay('alerts-overlay');swTab('board')">View Profile</button>`:''}
+      <button class="alert-btn ab-delete" onclick="deleteAlert('${a.id}')">✕ Delete</button>
+    </div>
+  </div>`).join('');
+  document.getElementById('alerts-list').innerHTML=h||'<div style="text-align:center;padding:20px;color:var(--t3);font-size:15px">✓ All clear — no alerts</div>';
+}
+function deleteAlert(id){
+  dismissedAlerts.add(id);
+  document.getElementById('alert-'+id)?.remove();
+  renderAlerts();
+  renderToday();
+  toast('Alert removed',()=>{dismissedAlerts.delete(id);renderAlerts();renderToday();});
+}
+function textBarbara(){
+  openPreTextDirect('Barbara Henderson','208-890-5948',"Barbara — Coach Breckterfield here. Happy birthday! So excited to have Jack as part of our Utah family. We can't wait to see everyone June 5-7. Go Utes! 🔴");
+  deleteAlert('a3');
+}
+function textAllOL(){
+  toast('Opening Messages — send Spencer Fano news to all OL targets');
+  deleteAlert('a6');
+}
+
+// ══ TODAY SCREEN ══════════════════════════════════════════════
+function renderToday(){
+  const coachRecruits=getCoachRecruits();
+  const firePiece=TODAY_FIRE.filter(f=>!dismissedAlerts.has('t_'+f.id)&&(f.coachKey===coach||coach==='scalley'));
+  const duePiece=TODAY_DUE.filter(d=>!dismissedAlerts.has('td_'+d.id)&&(d.coachKey===coach||coach==='scalley'));
+  const priorRecruits=coachRecruits.filter(r=>r.tier==='A'&&!r.gone&&r.status!=='lost').slice(0,3);
+  const onTrackCt=coachRecruits.filter(r=>!r.gone&&r.status!=='lost'&&r.tier!=='A'||r.status==='commit').length;
+  // Update summary counts
+  document.getElementById('sc-fire-n').textContent=firePiece.length;
+  document.getElementById('sc-due-n').textContent=duePiece.length;
+  document.getElementById('sc-track-n').textContent=coachRecruits.filter(r=>r.status==='commit').length;
+  document.getElementById('sc-atier-n').textContent=coachRecruits.filter(r=>r.tier==='A'&&!r.gone).length;
+  // ON FIRE
+  let fireH=firePiece.length?`<div class="sec-hdr" id="fire"><span class="sec-hdr-t" style="color:var(--error)">🔴 On Fire — Act Now</span><span class="sec-hdr-ct">${firePiece.length} item${firePiece.length!==1?'s':''}</span></div>`+'':'';
+  fireH+=firePiece.map(f=>`<div class="t-card" id="tcard-${f.id}" onclick="selRecruit('${f.recruitId}');swTab('board')">
+    <div class="t-card-inner">
+      <div class="t-card-bar bar-red"></div>
+      <div class="t-card-body">
+        <div class="t-card-name">${f.name}</div>
+        <div class="t-card-sub">${f.sub}</div>
+        <div class="t-card-msg urgent">${f.msg}</div>
+      </div>
+      <div class="t-card-actions">
+        <button class="tca-btn btn-call" onclick="event.stopPropagation();${f.callFn}">${f.callTxt}</button>
+        ${f.textFn?`<button class="tca-btn btn-text" onclick="event.stopPropagation();${f.textFn}">${f.textTxt}</button>`:''}
+        <button class="tca-btn btn-del" onclick="event.stopPropagation();deleteTodayItem('t_${f.id}')">✕</button>
+      </div>
+    </div>
+    <div class="t-card-next">${f.next}</div>
+  </div>`).join('');
+  document.getElementById('fire-section').innerHTML=fireH;
+  // DUE TODAY
+  let dueH=duePiece.length?`<div class="sec-hdr" id="due"><span class="sec-hdr-t" style="color:#92400E">🟡 Due Today</span><span class="sec-hdr-ct">${duePiece.length} action${duePiece.length!==1?'s':''}</span></div>`:'' ;
+  dueH+=duePiece.map(d=>`<div class="t-card" id="tcard-due-${d.id}" onclick="selRecruit('${d.recruitId}');swTab('board')">
+    <div class="t-card-inner">
+      <div class="t-card-bar bar-amb"></div>
+      <div class="t-card-body">
+        <div class="t-card-name">${d.name}</div>
+        <div class="t-card-sub">${d.sub}</div>
+        <div class="t-card-msg due">${d.msg}</div>
+      </div>
+      <div class="t-card-actions">
+        <button class="tca-btn btn-call" onclick="event.stopPropagation();${d.callFn}">${d.callTxt}</button>
+        ${d.textFn?`<button class="tca-btn btn-text" onclick="event.stopPropagation();${d.textFn}">${d.textTxt}</button>`:''}
+        <button class="tca-btn btn-del" onclick="event.stopPropagation();deleteTodayItem('td_${d.id}')">✕</button>
+      </div>
+    </div>
+    <div class="t-card-next">${d.next}</div>
+  </div>`).join('');
+  document.getElementById('due-section').innerHTML=dueH;
+  // PRIORITY
+  let prH=priorRecruits.length?`<div class="sec-hdr"><span class="sec-hdr-t">⭐ Priority Recruits — A-Tier</span><span class="sec-hdr-ct" onclick="swTab('board')" style="cursor:pointer">View Board</span></div>`:'';
+  prH+=priorRecruits.map(r=>`<div class="p-card" onclick="selRecruit('${r.id}');swTab('board')">
+    <div class="p-card-top">
+      <div class="p-card-av-ph" style="background:${r.avBg};color:${r.avTc}">${ini(r.name)}</div>
+      <div class="p-card-info">
+        <div class="p-card-name">${r.name}</div>
+        <div class="p-card-pos">${r.pos} · ${r.hs} · ${r.city}</div>
+      </div>
+      <div class="p-card-right">
+        <div class="tier-badge tb-${r.tier.toLowerCase()}">${r.tier}</div>
+        <div class="rel-wrap"><div class="rel-track"><div class="rel-fill" style="width:${r.relScore*10}%;background:${rc(r.relScore)}"></div></div><div class="rel-num" style="color:${rc(r.relScore)}">${r.relScore}</div></div>
+      </div>
+    </div>
+    <div class="p-card-sigs">
+      ${r.status==='commit'?'<span class="sig sig-g">Committed</span>':''}
+      ${r.rpm>0?`<span class="sig sig-b">Utah ${r.rpm}% RPM</span>`:''}
+      ${r.status==='priority'?'<span class="sig sig-r">Active Target</span>':''}
+      ${r.shortSt.includes('OV')&&r.shortSt.includes('June')?'<span class="sig sig-a">OV Scheduled</span>':''}
+    </div>
+  </div>`).join('');
+  document.getElementById('priority-section').innerHTML=prH;
+  // ON TRACK
+  const commits=coachRecruits.filter(r=>r.status==='commit');
+  let trackH=`<div class="sec-hdr" id="track"><span class="sec-hdr-t" style="color:var(--success)">🟢 On Track</span><span class="sec-hdr-ct">${commits.length} committed</span></div>
+  <div class="on-track-box">
+    <div class="otb-title">You are on top of your board</div>
+    <div class="otb-sub">${commits.length} committed players, proper engagement on all other targets. No missed contact windows outside of On Fire items.</div>
+    <button class="otb-btn" onclick="swTab('board')">View Full Board →</button>
+  </div>`;
+  document.getElementById('track-section').innerHTML=trackH;
+}
+
+function deleteTodayItem(id){
+  dismissedAlerts.add(id);
+  renderToday();
+  toast('Removed from Today',()=>{dismissedAlerts.delete(id);renderToday();});
+}
+function scrollToSection(id){
+  const el=document.getElementById(id);
+  if(el){document.getElementById('today-scroll').scrollTop=el.offsetTop-10;}
+}
+
+// Today fire/due data driven by coach
+const TODAY_FIRE=[
+  {id:'reyna_fire',coachKey:'breck',recruitId:'reyna',
+   name:'Achilles Reyna',sub:'EDGE · Rainier Beach HS · Seattle, WA · 6\'7" 240',
+   msg:'Oregon just offered 6 hours ago. You are leading 71% RPM. Call before he posts about Oregon.',
+   callTxt:'Call Now',callFn:`openPreCall('reyna')`,
+   textTxt:'Text',textFn:`openPreText('reyna')`,
+   next:'Window is closing — call before end of day today'},
+  {id:'henderson_bday',coachKey:'breck',recruitId:'henderson',
+   name:'Barbara Henderson — birthday tomorrow May 3',sub:'Jack Henderson\'s mother · 208-890-5948',
+   msg:'30-second text builds the family relationship through signing day. OV confirmed June 5-7.',
+   callTxt:'Text Barbara',callFn:`textBarbara()`,
+   textTxt:null,textFn:null,
+   next:'Birthday tomorrow — do this today'},
+  {id:'graves_fire',coachKey:'swan',recruitId:'graves',
+   name:'Braiden Graves',sub:'S · Bridgeland HS · Cypress, TX · 6\'0" 190',
+   msg:'Houston coaches visiting at school TOMORROW. 5 days no contact. Call tonight.',
+   callTxt:'Call Tonight',callFn:`openPreCall('graves')`,
+   textTxt:'Text',textFn:`openPreText('graves')`,
+   next:'Houston visits tomorrow — call him before they do'},
+  {id:'hildebrand_fire',coachKey:'gross',recruitId:'hildebrand',
+   name:'Jake Hildebrand',sub:'OT · Basha HS · Chandler, AZ · ★★★★ · OT #8',
+   msg:'Spencer Fano 9th overall yesterday. 8 days no contact. ASU visits June 12. Call with the Fano news.',
+   callTxt:'Call Now',callFn:`openPreCall('hildebrand')`,
+   textTxt:null,textFn:null,
+   next:'Fano pitch + ASU visits June 12 — call this week'},
+];
+
+const TODAY_DUE=[
+  {id:'sykes_due',coachKey:'bumphis',recruitId:'sykes',
+   name:"Dillon Sykes — 'Almost time to decide'",sub:'WR · Rancho Cucamonga HS · CA · Utah 94% RPM',
+   msg:'Tweeted this morning. 94% RPM. No OV scheduled. One call closes this.',
+   callTxt:'Call Now',callFn:`openPreCall('sykes')`,
+   textTxt:'Text',textFn:`openPreText('sykes')`,
+   next:'94% RPM — schedule the OV today'},
+  {id:'mailei_due',coachKey:'swan',recruitId:'mailei',
+   name:'Jonah Mailei',sub:'RB · Skyline HS · Salt Lake City, UT · Utah 92% RPM',
+   msg:'In-state. 10 min from Rice-Eccles. Mother said "this feels like home." No OV scheduled.',
+   callTxt:'Call Now',callFn:`openPreCall('mailei')`,
+   textTxt:'Text',textFn:`openPreText('mailei')`,
+   next:'92% RPM — one call to schedule OV closes this'},
+  {id:'joshua_due',coachKey:'gross',recruitId:'joshua',
+   name:'Mason Joshua',sub:'OT/IOL · Forney HS · TX · ★★★ · OV June 5 · Decides July 4',
+   msg:'Arizona visits May 29 before your OV. Call with Fano news before he goes to Tucson.',
+   callTxt:'Call Before Weekend',callFn:`openPreCall('joshua')`,
+   textTxt:'Text',textFn:`openPreText('joshua')`,
+   next:'Arizona visits May 29 — reinforce Utah before then'},
+];
+
+// ══ BOARD ══════════════════════════════════════════════════════
+function getCoachRecruits(){
+  const cc=COACHES[coach];
+  if(!cc?.positions)return RECRUITS;
+  return RECRUITS.filter(r=>cc.positions.includes(r.pos));
+}
+function buildPosRow(){
+  const row=document.getElementById('pos-row');if(!row)return;
+  const cc=COACHES[coach];
+  const positions=coach==='scalley'?
+    ['all','QB','RB','WR','TE','OT','IOL','EDGE','DL','LB','CB','S','ATH']:
+    ['all',...(cc?.positions||[]),'QB','RB','WR','TE','OT','IOL','EDGE','DL','LB','CB','S'];
+  const unique=[...new Set(positions)];
+  row.innerHTML=unique.map(p=>`<div class="pos-btn${p===pos?' on':''}" onclick="swPos('${p}',this)">${p==='all'?'All':p}</div>`).join('');
+}
+function getList(){
+  let list=RECRUITS.filter(r=>r.status!=='portal');
+  const cc=COACHES[coach];
+  if(coach!=='scalley'&&cc?.positions)list=list.filter(r=>cc.positions.includes(r.pos));
+  if(pos!=='all')list=list.filter(r=>r.pos===pos);
+  return list;
+}
+function renderBoard(){
+  buildPosRow();
+  const list=getList();
+  const commits=list.filter(r=>r.status==='commit');
+  const priority=list.filter(r=>r.status==='priority');
+  const offered=list.filter(r=>r.status==='offered');
+  const lost=list.filter(r=>r.status==='lost');
+  const gone=list.filter(r=>r.gone);
+  let h='';
+  if(commits.length){h+=`<div class="tier-label">Committed</div>`;commits.forEach(r=>h+=bCard(r));}
+  if(priority.length){h+=`<div class="tier-label">Priority — Active Targets</div>`;priority.forEach(r=>h+=bCard(r));}
+  if(offered.length){h+=`<div class="tier-label">Offers Out</div>`;offered.forEach(r=>h+=bCard(r));}
+  if(lost.length){h+=`<div class="tier-label">Decommitted / Lost</div>`;lost.forEach(r=>h+=bCard(r));}
+  if(gone.length){h+=`<div class="tier-label">Signed Elsewhere</div>`;gone.forEach(r=>h+=bCard(r));}
+  if(!h)h='<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--t3);font-size:15px">No recruits match this filter</div>';
+  const grid=document.getElementById('board-grid');if(grid)grid.innerHTML=h;
+  // Auto-select first on desktop
+  const first=list.find(r=>!r.gone&&r.status!=='lost');
+  if(first&&window.innerWidth>=768&&!selId)setTimeout(()=>selRecruit(first.id,false),50);
+  else if(selId){
+    // If current selId not in new list, load first
+    const stillIn=list.find(r=>r.id===selId);
+    if(!stillIn&&first)setTimeout(()=>selRecruit(first.id,false),50);
+  }
+}
+
+function bCard(r){
+  const isSel=selId===r.id?' sel':'';
+  let photoEl=r.photo
+    ?`<img class="b-card-photo" src="${r.photo}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="${r.name}"><div class="b-card-photo-ph" style="background:${r.avBg};color:${r.avTc};display:none">${ini(r.name)}</div>`
+    :`<div class="b-card-photo-ph" style="background:${r.avBg};color:${r.avTc}">${ini(r.name)}</div>`;
+  const od=r.checklist?.some(s=>s.items?.some(i=>i.overdue&&!i.done));
+  let pill='';
+  if(r.gone)pill=`<span class="pill p-gone">Signed Elsewhere</span>`;
+  else if(r.status==='lost')pill=`<span class="pill p-lost">Decommitted</span>`;
+  else if(r.status==='commit')pill=`<span class="pill p-commit">Committed ✓</span>`;
+  else if(r.status==='priority'&&od)pill=`<span class="pill p-act">Act Today</span>`;
+  else if(r.status==='priority')pill=`<span class="pill p-active">Active Target</span>`;
+  else pill=`<span class="pill p-offer">Offer Out</span>`;
+  const cc=COACHES[r.coachKey];
+  return `<div class="b-card${isSel}" id="bc-${r.id}" onclick="selRecruit('${r.id}',true)">
+    <div class="b-card-top">
+      <div class="b-card-tier"><div class="tier-badge tb-${(r.tier||'C').toLowerCase()}">${r.tier||'C'}</div></div>
+      <div class="b-card-av-wrap">${photoEl}</div>
+      <div class="stars-txt">${r.stars>0?stars(r.stars):'&nbsp;'}</div>
+      <div class="b-card-name${r.gone||r.status==='lost'?' gone-name':''}">${r.name}</div>
+      <div class="b-card-pos">${r.pos} · ${r.ht} ${r.wt}</div>
+      <div class="b-card-pills">${pill}</div>
+      ${r.rpm>0?`<div class="b-card-rpm">Utah ${r.rpm}%</div>`:''}
+      <div class="b-card-owner" title="${cc?.name||''}">${cc?.init||'—'}</div>
+    </div>
+    <div class="b-card-metrics">
+      <div class="b-metric"><div class="b-metric-lbl">City</div><div class="b-metric-val" style="font-size:10px">${r.city.split(',')[1]?.trim()||r.city.split(',')[0]}</div></div>
+      <div class="b-metric"><div class="b-metric-lbl">Rel</div><div class="b-metric-val" style="color:${rc(r.relScore)}">${r.relScore}/10</div></div>
+      <div class="b-metric"><div class="b-metric-lbl">Rank</div><div class="b-metric-val" style="font-size:10px">${r.rank.split('·')[0].trim()}</div></div>
+    </div>
+  </div>`;
+}
+
+// ══ PROFILE ═══════════════════════════════════════════════════
+function selRecruit(id,openMobile=true){
+  selId=id;
+  const r=RECRUITS.find(x=>x.id===id);if(!r)return;
+  document.querySelectorAll('.b-card').forEach(el=>el.classList.remove('sel'));
+  document.getElementById('bc-'+id)?.classList.add('sel');
+  const panel=buildProfile(r);
+  const br=document.getElementById('board-r');
+  if(br){br.innerHTML=panel;if(openMobile)br.classList.add('open');}
+}
+
+function buildProfile(r){
+  const sc=r.gone?'var(--t3)':r.status==='commit'?'var(--success)':r.status==='priority'?'var(--error)':'var(--warning)';
+  let photoEl=r.photo
+    ?`<img class="prof-photo" src="${r.photo}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="${r.name}"><div class="prof-photo-ph" style="background:${r.avBg};color:${r.avTc};display:none">${ini(r.name)}</div>`
+    :`<div class="prof-photo-ph" style="background:${r.avBg};color:${r.avTc}">${ini(r.name)}</div>`;
+  const od=r.checklist?.flatMap(s=>s.items||[]).filter(i=>i.overdue&&!i.done)||[];
+  let pills='';
+  if(r.gone)pills=`<span class="pill p-gone">Signed Elsewhere — ${r.goneSchool||''}</span>`;
+  else if(r.status==='lost')pills=`<span class="pill p-lost">Decommitted</span>`;
+  else if(r.status==='commit')pills=`<span class="pill p-commit">Committed ✓</span>`;
+  else if(od.length)pills=`<span class="pill p-act">Act Today</span>`;
+  else if(r.status==='priority')pills=`<span class="pill p-active">Active Target</span>`;
+  else pills=`<span class="pill p-offer">Offer Out</span>`;
+  if(r.tier)pills+=` <div class="tier-badge tb-${r.tier.toLowerCase()}" style="display:inline-flex">${r.tier}</div>`;
+  const nabH=!r.gone&&r.status!=='lost'?`<div class="next-action-box">
+    <div class="nab-lbl">⚡ Next Action</div>
+    <div class="nab-action">${od.length?od[0].a:r.note||'Review and determine next step'}</div>
+    <div class="nab-ctx">${r.shortSt}</div>
+    <div class="nab-btns">
+      <button class="nab-btn nab-call" onclick="openPreCall('${r.id}')">📞 Call Now</button>
+      <button class="nab-btn nab-text" onclick="openPreText('${r.id}')">✉ Send Text</button>
+      ${r.xHandle?`<button class="nab-btn nab-x" onclick="openX('${r.id}')">𝕏 View on X</button>`:''}
+    </div>
+  </div>`:'';
+  const famH=r.family?.length?r.family.map((f,i)=>`<div class="fam-row" onclick="openFamilyContact('${r.id}',${i})">
+    <div class="fam-av" style="background:${f.bg};color:${f.tc}">${f.init}</div>
+    <div class="fam-info"><div class="fam-name">${f.name}</div><div class="fam-role">${f.role}</div></div>
+    <div class="fam-phone">${f.phone}</div>
+    <div class="fam-arr">›</div>
+  </div>`).join(''):'<div style="font-size:13px;color:var(--t3);padding:6px 0">No family contacts yet</div>';
+  const offH=(r.offers||[]).map(o=>`<span class="otag${o.startsWith('Utah ✓')?' ours':''}">${o}</span>`).join('');
+  const rclr=rc(r.relScore||5);
+  const relH=`<div class="rel-box"><div class="sec-card-title">Relationship Intelligence</div>
+    <div class="rel-score-row">
+      <div class="rel-big" style="color:${rclr}">${r.relScore||5}</div>
+      <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--t2);margin-bottom:3px">Relationship Strength</div>
+        <div class="rel-bar-big"><div class="rel-fill-big" style="width:${(r.relScore||5)*10}%;background:${rclr}"></div></div>
+        <div style="font-size:11px;color:var(--t3);margin-top:3px">${r.relScore>=7?'Strong — protect and maintain':r.relScore>=4?'Developing — needs investment':'Thin — high risk'}</div>
+      </div>
+    </div>
+    <div class="lmt-box"><div class="lmt-lbl">Last Meaningful Interaction</div><div class="lmt-txt">"${r.lastMeaningful||'No meaningful interaction logged yet'}"</div></div>
+  </div>`;
+  const persH=(r.personal||[]).map(d=>`<span class="detail-tag">• ${d}</span>`).join('');
+  const compH=r.compIntel?.length?r.compIntel.map(c=>`<div class="comp-row"><div class="comp-sch">${c.school}</div><div class="comp-pos ${c.pos}">${c.pos==='cp-lead'?'Competing':c.pos==='cp-comp'?'Watching':'Trailing'}</div></div>`).join(''):'<div style="font-size:13px;color:var(--t3);padding:6px 0">No competitive intel logged</div>';
+  const nilH=r.nil?`<div class="nil-row"><div class="nil-lbl">Our position</div><div class="nil-val">${r.nil.ours}</div></div><div class="nil-row"><div class="nil-lbl">Their offer</div><div class="nil-val">${r.nil.theirs}</div></div><div class="nil-row"><div class="nil-lbl">Notes</div><div class="nil-val" style="font-size:12px;color:var(--t2)">${r.nil.notes}</div></div>`:'';
+  // Checklist
+  let clH='';
+  if(r.checklist?.length){
+    clH=`<div class="checklist-wrap"><div class="sec-card-title">Recruiting Checklist — Cradle to Grave</div>`;
+    if(od.length){clH+=`<div style="background:#FFF5F5;border:1px solid #FECACA;border-radius:10px;padding:10px 12px;margin-bottom:10px"><div style="font-size:11px;font-weight:700;color:var(--error);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">⚠ Overdue — Tap to Assign</div>${od.map(i=>`<div style="font-size:14px;font-weight:600;color:var(--error);cursor:pointer;margin-bottom:3px" onclick="openAssign('${i.a}')">→ ${i.a}</div>`).join('')}</div>`;}
+    r.checklist.forEach(s=>{
+      const done=s.items.filter(i=>i.done).length;
+      clH+=`<div style="margin-bottom:12px"><div class="cl-stage-hdr"><span class="cl-stage-name">${s.stage}</span><span class="cl-prog" style="color:${done===s.items.length?'var(--success)':'var(--warning)'}">${done}/${s.items.length}</span></div>
+      ${s.items.map(i=>`<div class="cl-item${i.overdue&&!i.done?' overdue-item':''}">
+        <div class="cl-check ${i.done?'done':i.sched?'sched':i.overdue?'overdue-chk':''}" onclick="${i.done?'uncheckItem(this)':'checkItem(this)'}">
+          ${i.done?'<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>':''}
+        </div>
+        <div class="cl-info">
+          <div class="cl-action${i.overdue&&!i.done?' overdue-txt':''}">${i.a}</div>
+          <div class="cl-meta${i.overdue&&!i.done?' overdue-txt':''}">${i.done?`✓ ${i.who} · ${i.date}`:i.sched?`Scheduled: ${i.date}`:i.overdue?`⚠ Overdue — <span style="color:var(--accent);cursor:pointer" onclick="openAssign('${i.a}')">tap to assign</span>`:'Not started'}</div>
+        </div>
+      </div>`).join('')}</div>`;
+    });
+    clH+=`</div>`;
+  }
+  // Comms
+  let commH=`<div class="comm-wrap"><div class="sec-card-title">Communication Log</div>`;
+  if(r.comms?.length){commH+=r.comms.map(c=>`<div class="comm-item"><div class="comm-ico">${c.icon}</div><div><div class="comm-who">${c.who}</div><div class="comm-note">${c.note}</div><div class="comm-time">${c.time}</div></div></div>`).join('');}
+  else{commH+=`<div style="font-size:13px;color:var(--t3);padding:8px 0">No contacts logged yet. Tap Call Now to start.</div>`;}
+  commH+=`</div>`;
+  const hudlH=r.hudl?`<a class="hudl-link" href="${r.hudl}" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>Watch Film on Hudl</a>`:'';
+  return `<div>
+    <div class="mob-back" onclick="closeMobile()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Back to Board</div>
+    <div class="profile-scroll">
+      <div class="prof-hdr">
+        ${photoEl}
+        <div class="prof-info">
+          <div class="prof-name">${r.name}${r.stars>0?' <span style="font-size:14px;color:#F59E0B">'+stars(r.stars)+'</span>':''}</div>
+          <div class="prof-pos">${r.pos} · ${r.hs} · ${r.city} · ${r.ht}/${r.wt} · Class 2027 · ${r.rank}</div>
+          <div class="prof-pills">${pills}</div>
+        </div>
+      </div>
+      <div class="status-strip">
+        <div class="ss-item"><div class="ss-lbl">Status</div><div class="ss-val" style="color:${sc}">${r.status==='commit'?'Committed':r.status==='priority'?'Active Target':r.gone?'Signed Elsewhere':r.status==='lost'?'Lost':'Offer Out'}</div></div>
+        <div class="ss-item"><div class="ss-lbl">Last Contact</div><div class="ss-val">${r.comms?.[0]?.time||'Never'}</div></div>
+        <div class="ss-item"><div class="ss-lbl">Owner</div><div class="ss-val">${COACHES[r.coachKey]?.short||'—'}</div></div>
+        <div class="ss-item"><div class="ss-lbl">Rel Score</div><div class="ss-val" style="color:${rc(r.relScore||5)}">${r.relScore||5}/10</div></div>
+        ${r.rpm>0?`<div class="ss-item"><div class="ss-lbl">Utah RPM</div><div class="ss-val" style="color:${r.rpm>=50?'var(--success)':r.rpm>=25?'var(--warning)':'var(--error)'}">${r.rpm}%</div></div>`:''}
+      </div>
+      ${nabH}
+      <div class="sec-card">
+        <div class="sec-card-title">Family &amp; Key Contacts — Tap to Call or Text</div>
+        ${famH}
+      </div>
+      <div class="sec-card">
+        <div class="sec-card-title">All Confirmed Offers</div>
+        <div class="otags">${offH||'<span style="font-size:13px;color:var(--t3)">No offer data</span>'}</div>
+      </div>
+      <div class="sec-card">
+        <div class="sec-card-title">Stats &amp; Film Notes</div>
+        <div style="font-size:14px;color:var(--t2);line-height:1.7">${r.stats||'—'}</div>
+        ${hudlH}
+      </div>
+      ${persH?`<div class="sec-card"><div class="sec-card-title">Personal Details — Know This Before You Call</div><div style="display:flex;flex-wrap:wrap;gap:4px;padding:2px 0">${persH}</div></div>`:''}
+      ${relH}
+      <div class="sec-card"><div class="sec-card-title">Competitive Intelligence</div>${compH}</div>
+      ${r.nil?`<div class="sec-card"><div class="sec-card-title">NIL Awareness</div>${nilH}</div>`:''}
+      ${clH}
+      ${commH}
+      <div class="sec-card-title" style="margin-bottom:6px">Add a Note</div>
+      <div class="note-box">
+        <textarea class="note-input" id="note-${r.id}" placeholder="Type or use voice-to-text — what was discussed, next steps, family updates..."></textarea>
+        <button class="note-save" onclick="saveNote('${r.id}')">Save Note</button>
+      </div>
+      ${!r.gone&&r.status!=='lost'?`<div class="prof-btns">
+        <button class="pb pb-call" onclick="openPreCall('${r.id}')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Call Now</button>
+        <button class="pb pb-text" onclick="openPreText('${r.id}')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Send Text</button>
+        ${r.xHandle?`<button class="pb pb-x" onclick="openX('${r.id}')">𝕏 View on X</button>`:'<div></div>'}
+        <button class="pb pb-done" onclick="openReachDirect('${r.id}')">Contacted Today</button>
+      </div>`:''}
+    </div>
+  </div>`;
+}
+
+function checkItem(el){el.classList.add('done');el.innerHTML='<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';toast('Checked off — logged');}
+function uncheckItem(el){el.classList.remove('done');el.innerHTML='';toast('Unchecked');}
+function saveNote(id){
+  const el=document.getElementById('note-'+id);
+  if(!el||!el.value.trim()){toast('Type a note first');return;}
+  toast('Note saved — '+new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}));
+  el.value='';
+}
+function closeMobile(){document.getElementById('board-r')?.classList.remove('open')}
+
+// ══ PRE-CALL ══════════════════════════════════════════════════
+function openPreCall(id){
+  const r=RECRUITS.find(x=>x.id===id);if(!r)return;
+  reachTarget=r.name;
+  precallTarget={id,name:r.name,pos:`${r.pos} · ${r.hs} · ${r.city}`,phone:r.family?.[0]?.phone||'No number on file',note:r.comms?.[0]?.note||'No previous contact logged'};
+  document.getElementById('precall-name-lbl').textContent='Calling';
+  document.getElementById('precall-name').textContent=r.name;
+  document.getElementById('precall-pos').textContent=`${r.pos} · ${r.hs} · ${r.city}`;
+  document.getElementById('precall-number').textContent=precallTarget.phone;
+  document.getElementById('precall-note').textContent=precallTarget.note;
+  openOverlay('precall-overlay');
+}
+function dialNumber(){window.location.href=`tel:${precallTarget.phone.replace(/\D/g,'')}`}
+function initiateCall(){
+  window.location.href=`tel:${precallTarget.phone.replace(/\D/g,'')}`;
+  closeOverlay('precall-overlay');
+  setTimeout(()=>{
+    reachTarget=precallTarget.name;
+    document.getElementById('reach-name').textContent=`Did you reach ${precallTarget.name}?`;
+    document.getElementById('reach-note-area').style.display='none';
+    document.getElementById('reach-input').value='';
+    openOverlay('reach-overlay');
+  },2000);
+}
+
+// ══ PRE-TEXT ══════════════════════════════════════════════════
+function openPreText(id){
+  const r=RECRUITS.find(x=>x.id===id);if(!r)return;
+  const phone=r.family?.[0]?.phone||'No number on file';
+  const msg=`Hey ${r.name.split(' ')[0]} — ${COACHES[coach]?.short||'Coach'} here. Just thinking about you and the class we're building. You're exactly what we need at Utah. Let's talk this week. Go Utes!`;
+  openPreTextDirect(r.name,phone,msg);
+}
+function openPreTextDirect(name,phone,msg){
+  pretextTarget={name,phone,msg};
+  document.getElementById('pretext-name').textContent=name;
+  document.getElementById('pretext-num').textContent=phone;
+  document.getElementById('pretext-msg').value=msg;
+  openOverlay('pretext-overlay');
+}
+function sendText(){
+  const msg=document.getElementById('pretext-msg').value;
+  const phone=pretextTarget.phone.replace(/\D/g,'');
+  window.location.href=`sms:${phone}&body=${encodeURIComponent(msg)}`;
+  closeOverlay('pretext-overlay');
+  setTimeout(()=>{
+    reachTarget=pretextTarget.name;
+    document.getElementById('reach-name').textContent=`Did you reach ${pretextTarget.name}?`;
+    document.getElementById('reach-note-area').style.display='none';
+    document.getElementById('reach-input').value='';
+    openOverlay('reach-overlay');
+  },2000);
+}
+
+// ══ X PROFILE ════════════════════════════════════════════════
+function openX(id){
+  const r=RECRUITS.find(x=>x.id===id);if(!r||!r.xHandle)return;
+  xTarget={name:r.name,handle:r.xHandle,latest:r.xLatest||'No recent posts'};
+  document.getElementById('x-name').textContent=r.name;
+  document.getElementById('x-handle').textContent=r.xHandle;
+  document.getElementById('x-latest').textContent=r.xLatest||'No recent activity';
+  openOverlay('x-overlay');
+}
+function openXProfile(){
+  const handle=xTarget.handle?.replace('@','');
+  window.open(`https://x.com/${handle}`,'_blank');
+  closeOverlay('x-overlay');
+}
+
+// ══ FAMILY CONTACT ════════════════════════════════════════════
+function openFamilyContact(recruitId,idx){
+  const r=RECRUITS.find(x=>x.id===recruitId);if(!r)return;
+  const f=r.family?.[idx];if(!f)return;
+  contactTarget={name:f.name,role:f.role,phone:f.phone,msg:f.msg||`Hi — ${COACHES[coach]?.short||'Coach'} here. Thinking of ${r.name.split(' ')[0]} and wanted to reach out.`};
+  document.getElementById('contact-name').textContent=f.name;
+  document.getElementById('contact-role').textContent=f.role;
+  document.getElementById('contact-phone').textContent=f.phone;
+  openOverlay('contact-overlay');
+}
+function openFamilyText(recruitId,idx){
+  const r=RECRUITS.find(x=>x.id===recruitId);if(!r)return;
+  const f=r.family?.[idx];if(!f)return;
+  openPreTextDirect(f.name,f.phone,f.msg||`Hi — ${COACHES[coach]?.short||'Coach'} here. Thinking of you and ${r.name.split(' ')[0]}.`);
+}
+function dialContactNumber(){window.location.href=`tel:${contactTarget.phone.replace(/\D/g,'')}`}
+function callContact(){window.location.href=`tel:${contactTarget.phone.replace(/\D/g,'')}`;closeOverlay('contact-overlay')}
+function textContact(){openPreTextDirect(contactTarget.name,contactTarget.phone,contactTarget.msg);closeOverlay('contact-overlay')}
+
+// ══ DID YOU REACH ════════════════════════════════════════════
+function openReachDirect(id){
+  const r=RECRUITS.find(x=>x.id===id);if(!r)return;
+  reachTarget=r.name;
+  document.getElementById('reach-name').textContent=`Did you reach ${r.name}?`;
+  document.getElementById('reach-note-area').style.display='none';
+  document.getElementById('reach-input').value='';
+  openOverlay('reach-overlay');
+}
+function showReachNote(){document.getElementById('reach-note-area').style.display='block';document.getElementById('reach-input').focus();}
+function reachNo(){toast("Logged: couldn't connect. Try again soon.");closeOverlay('reach-overlay');}
+function saveReach(){
+  const note=document.getElementById('reach-input').value.trim();
+  const t=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  toast(`Contact logged for ${reachTarget} · ${t}`);
+  closeOverlay('reach-overlay');
+  renderToday();
+}
+
+// ══ CHECKLIST ASSIGN ═════════════════════════════════════════
+function openAssign(action){
+  document.getElementById('assign-action').textContent=action;
+  const d=new Date();d.setDate(d.getDate()+2);
+  document.getElementById('assign-date').value=d.toISOString().split('T')[0];
+  openOverlay('assign-overlay');
+}
+function saveAssignment(){
+  const staff=document.getElementById('assign-staff').value;
+  const date=document.getElementById('assign-date').value;
+  toast(`Assigned to ${staff} — due ${date}`);
+  closeOverlay('assign-overlay');
+}
+
+// ══ WAR ROOM DRILLS ══════════════════════════════════════════
+function drillCommitted(){swTab('board');pos='all';setTimeout(()=>{document.querySelectorAll('.b-card').forEach(el=>{if(el.querySelector('.p-commit'))el.scrollIntoView({behavior:'smooth',block:'center'});});},200);}
+function drillOffered(){swTab('board');pos='all';buildPosRow();renderBoard();}
+function drillOVs(){swTab('warroom');toast('5 OVs: Hildebrand Jun 15, Moseley Jun 12, Joshua Jun 5, Bruce Jun 19, Ioane Jun 19');}
+function showDeadPeriod(){toast('Dead period June 1-14: No in-person contact. Hildebrand OV starts June 15 — same day contact opens.',null);}
+function drillAtRisk(){swTab('today');setTimeout(()=>scrollToSection('fire'),100);}
+
+// ══ RECRUITING NEWS ══════════════════════════════════════════
+const NEWS_ITEMS=[
+  {cls:'bar-red',tag:'at-r',tagTxt:'URGENT',time:'Today, 8:23am · On3',title:'Oregon just offered Achilles Reyna',desc:"Utah leading 71% RPM. Oregon offered this morning. Reyna has not posted about it yet — call him before the bidding war starts. His 6'7\" frame and elite wingspan are exactly what Oregon wants.",action:'Call Achilles Now',actionFn:`openPreCall('reyna');swTab('board')`,recruitId:'reyna',coachKey:'breck'},
+  {cls:'bar-red',tag:'at-r',tagTxt:'CLOSE NOW',time:'Today, 9:15am · X',title:"Dillon Sykes tweeted 'Almost time to make a decision'",desc:'Utah 94% RPM. He just signaled he is about to decide. No OV scheduled. Call him today and lock in the visit before another school jumps.',action:'Call Dillon Now',actionFn:`openPreCall('sykes');swTab('board')`,recruitId:'sykes',coachKey:'bumphis'},
+  {cls:'bar-red',tag:'at-r',tagTxt:'COMPETITION',time:'Today · Houston visiting tomorrow',title:'Houston coaches visiting Braiden Graves at Bridgeland HS tomorrow',desc:"Houston is at 32% RPM — leading. They are visiting his high school tomorrow. His older brother is on the Texans practice squad. Call him tonight before they do.",action:'Call Braiden Tonight',actionFn:`openPreCall('graves');swTab('board')`,recruitId:'graves',coachKey:'swan'},
+  {cls:'bar-amber',tag:'at-a',tagTxt:'PROGRAM SIGNAL',time:'Yesterday · 2026 NFL Draft',title:'Spencer Fano selected 9th overall — Utah OL development is proven',desc:'Highest drafted Utah OL in program history. Back-to-back first-round NFL OL developed by Jordan Gross (Fano and Lomu). Text every OL target today. This is the pitch that beats NIL money.',action:'Text All OL Targets',actionFn:`textAllOL()`,recruitId:null,coachKey:'gross'},
+  {cls:'bar-amber',tag:'at-a',tagTxt:'WATCH',time:'Today · X signal',title:'Jake Hildebrand liked 3 ASU posts this morning',desc:'Your OV is June 15. ASU visits first June 12. 8 days no contact. His father cried during the home visit talking about his son\'s future — call him with the Fano news this week.',action:'Call Hildebrand',actionFn:`openPreCall('hildebrand');swTab('board')`,recruitId:'hildebrand',coachKey:'gross'},
+  {cls:'bar-grn',tag:'at-g',tagTxt:'OV CONFIRMED',time:'Today, 8:47am · Dan Henderson',title:"Jack Henderson's Official Visit confirmed for June 5-7",desc:"Dan Henderson texted this morning. The whole family is coming — parents and younger brother Tyler. Jack posted 'See you soon Salt Lake City 🔴' — 847 likes. 3 other recruits DMed him asking about Utah.",action:'Call Dan Henderson',actionFn:`openFamilyContact('henderson',0);swTab('board')`,recruitId:'henderson',coachKey:'breck'},
+  {cls:'bar-grn',tag:'at-g',tagTxt:'GOOD SIGNAL',time:'Today · X signal',title:"Tye Kennedy's Utah RPM jumped from 31% to 47% overnight",desc:'Mountain View HS Mesa AZ. 6\'6\" 275 OT. He liked 3 Utah Football posts in a row this morning. Something changed. Text him today with the Spencer Fano news.',action:'Text Tye Kennedy',actionFn:`toast('Opening Messages for Tye Kennedy — reference Spencer Fano 9th overall')`,recruitId:null,coachKey:'gross'},
+  {cls:'bar-amber',tag:'at-a',tagTxt:'WATCH',time:'May 3, 2026 · X',title:'Washington made a home visit to Jag Ioane yesterday',desc:"Ioane posted positively about the Washington visit. BYU 28% Utah 24%. He is in Orem — 45 minutes from your campus. Coach Scalley personal call this week would be significant.",action:'View Jag Ioane',actionFn:`selRecruit('ioane');swTab('board')`,recruitId:'ioane',coachKey:'breck'},
+  {cls:'bar-amber',tag:'at-a',tagTxt:'WATCH',time:'Yesterday · On3',title:"Washington State visited Damian Anyasodo at St. Mary's HS",desc:'WSU at 43% RPM — Utah leading at 51% but the gap is narrowing. Anyasodo liked the Spencer Fano draft post this morning. Text him today.',action:'Text Anyasodo',actionFn:`openPreText('anyasodo');swTab('board')`,recruitId:'anyasodo',coachKey:'gross'},
+];
+function renderRecNews(){
+  const cc=COACHES[coach];
+  const filtered=coach==='scalley'?NEWS_ITEMS:NEWS_ITEMS.filter(i=>!i.coachKey||i.coachKey===coach);
+  const h=filtered.map(i=>`<div class="rn-card" onclick="${i.recruitId?`selRecruit('${i.recruitId}');swTab('board')`:''}">
+    <div class="rn-card-inner">
+      <div class="rn-bar ${i.cls}"></div>
+      <div class="rn-body">
+        <div class="rn-tag-row"><span class="rn-tag ${i.tag}">${i.tagTxt}</span><span class="rn-time">${i.time}</span></div>
+        <div class="rn-title">${i.title}</div>
+        <div class="rn-desc">${i.desc}</div>
+        <button class="rn-action-btn" onclick="event.stopPropagation();${i.actionFn}">${i.action} →</button>
+      </div>
+    </div>
+  </div>`).join('');
+  const el=document.getElementById('rn-list');
+  if(el)el.innerHTML=h||'<div style="text-align:center;padding:40px;color:var(--t3)">No news for this coach\'s board</div>';
+}
+
+// ══ WATCH LIST / PORTAL in MORE ═══════════════════════════════
+function showWatchList(){
+  const wl=document.getElementById('wl-content');
+  if(!wl)return;
+  wl.style.display='block';
+  wl.innerHTML=`<div style="font-size:16px;font-weight:700;color:var(--t1);margin-bottom:8px">Watch List</div>
+  <div style="font-size:13px;color:var(--t2);margin-bottom:12px"><b>No offer extended yet.</b> Tap any player to evaluate. Tap + to add.</div>
+  ${[
+    {av:'#FEE2E2',tc:'#DC2626',init:'GE',name:'Godschoice Eboigbodin',school:'JSerra Catholic · San Juan Cap., CA · EDGE · 6\'5" 235',tag:'★★★ On3 EDGE #55 · Natl',yr:'2027'},
+    {av:'#F3E8FF',tc:'#7C3AED',init:'JG',name:'Jernaro Gilford Jr.',school:'Saline HS · Saline, MI · CB · 6\'1" 170',tag:'★★★ 247 CB #79 · BYU 24% Utah 21%',yr:'2027'},
+    {av:'#DBEAFE',tc:'#1D4ED8',init:'DM',name:'Darion Moseley',school:'Thompson HS · Alabaster, AL · WR · 6\'0" 170',tag:'★★★ OV June 12-14',yr:'2027'},
+    {av:'#DCFCE7',tc:'#15803D',init:'IB',name:'Isaiah Bertola',school:'Farrington HS · Honolulu, HI · OT · 6\'5" 305',tag:'★★★★ 247 OT #37 · 2028',yr:'2028'},
+  ].map(w=>`<div class="wl-card" onclick="toast('${w.name} — evaluation profile. Move to Board when ready to offer.')">
+    <div class="wl-av" style="background:${w.av};color:${w.tc}">${w.init}</div>
+    <div class="wl-body"><div class="wl-name">${w.name}</div><div class="wl-school">${w.school}</div><div class="wl-tag" style="background:${w.av};color:${w.tc}">${w.tag}</div></div>
+    <div class="wl-yr">${w.yr}</div>
+  </div>`).join('')}
+  <div class="add-card" onclick="toast('Add player — notifies recruiting coordinator')"><span style="font-size:20px">+</span><span>Add a player</span></div>`;
+}
+function showPortal(){
+  const pc=document.getElementById('portal-content');
+  if(!pc)return;
+  pc.style.display='block';
+  pc.innerHTML=`<div style="font-size:16px;font-weight:700;color:var(--t1);margin-bottom:8px">Transfer Portal</div>
+  <div class="need-card">
+    <div class="need-section">
+      <div class="need-pos-hdr">Offensive Tackle <span class="nb nb-r">Critical — 2 spots</span></div>
+      <div class="pm-card" onclick="toast('Jordan Walker — Utah State OT · 6\\'6\\" 305 · 28 starts · PFF 74.2 · Grad transfer · Coach Gross connection through Logan UT · Call TODAY')">
+        <div class="pm-av" style="background:#FEE2E2;color:#DC2626">JW</div>
+        <div class="pm-body"><div class="pm-name">Jordan Walker</div><div class="pm-school">Utah State · OT · 6'6" 305 · 28 starts · PFF 74.2 · Grad transfer · Gross connection</div></div>
+        <div class="pm-r"><span class="pt-live">In Portal</span><div class="pm-clock">28d left</div></div>
+      </div>
+    </div>
+    <div class="need-section">
+      <div class="need-pos-hdr">Edge Rusher <span class="nb nb-a">1 spot open</span></div>
+      <div class="pm-card" onclick="toast('Marcus Porter — Colorado State · EDGE · 6\\'4\\" 250 · PFF 68.1 · 5.5 sacks 2025 · 19 days left · Contact permitted NOW')">
+        <div class="pm-av" style="background:#DBEAFE;color:#1D4ED8">MP</div>
+        <div class="pm-body"><div class="pm-name">Marcus Porter</div><div class="pm-school">Colorado State · EDGE · 6'4" 250 · 5.5 sacks · PFF 68.1</div></div>
+        <div class="pm-r"><span class="pt-live">In Portal</span><div class="pm-clock">19d left</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="add-card" onclick="toast('Add position need — notifies recruiting coordinator')" style="border-color:#BFDBFE;color:#1D4ED8"><span style="font-size:20px">+</span><span>Add a position need or portal player</span></div>`;
+}
+
+// ══ NAVIGATION ════════════════════════════════════════════════
+function swTab(t,navEl){
+  tab=t;
+  document.querySelectorAll('.nt').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pane-'+t)?.classList.add('on');
+  if(navEl)navEl.classList.add('on');
+  else document.getElementById('nt-'+t)?.classList.add('on');
+  const ss=document.getElementById('sum-strip');
+  const bh=document.getElementById('board-hdr-wrap');
+  if(ss)ss.style.display=t==='today'?'flex':'none';
+  if(bh)bh.style.display=t==='board'?'block':'none';
+  if(t==='board'){renderBoard();}
+  if(t==='news')renderRecNews();
+}
+function swTabAndPos(t,p){pos=p;swTab(t);buildPosRow();renderBoard();}
+function swYr(y,el){
+  yr=y;document.querySelectorAll('.yr').forEach(x=>x.classList.remove('on'));el?.classList.add('on');renderBoard();
+}
+function swPos(p,el){
+  pos=p;document.querySelectorAll('.pos-btn').forEach(x=>x.classList.remove('on'));el?.classList.add('on');
+  renderBoard();
+  const first=getList().find(r=>!r.gone&&r.status!=='lost');
+  if(first)setTimeout(()=>selRecruit(first.id,false),50);
+}
+function goHome(){swTab('today');toast('RED ZONE · Today')}
+
+// ══ INIT ══════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
+  const saved=localStorage.getItem('rz_coach');
+  if(saved&&COACHES[saved]){
+    coach=saved;
+    document.querySelectorAll('.cd-item').forEach(el=>{
+      if(el.getAttribute('onclick')?.includes(`'${saved}'`))el.classList.add('on');
+      else el.classList.remove('on');
+    });
+    if(COACHES[coach]?.positions?.length)pos=COACHES[coach].positions[0];
+  }
+  applyCoach(coach);
+  document.getElementById('sum-strip').style.display='flex';
+  swTab('today',document.getElementById('nt-today'));
+});
+</script>
+</body>
+</html>
